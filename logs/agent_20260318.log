@@ -1,0 +1,103 @@
+2026-03-18 11:11:45,561 - agent - INFO - file_handler.py:37- [md5计算]D:\AI_project\ServiceAgent\data\扫地机器人100问.txt文件md5计算成功，结果为ceb20feabec8b3807d94c06ffd8a7dfa
+2026-03-18 11:11:45,562 - agent - INFO - vector_store.py:78- [加载知识库]D:\AI_project\ServiceAgent\data\扫地机器人100问.txt内容已存在，跳过！
+2026-03-18 11:11:45,571 - agent - INFO - file_handler.py:37- [md5计算]D:\AI_project\ServiceAgent\data\扫拖地机器人的发展历程.docx文件md5计算成功，结果为f7008cbe32336b78bb71a26266ac9d4a
+2026-03-18 11:11:45,571 - agent - INFO - vector_store.py:78- [加载知识库]D:\AI_project\ServiceAgent\data\扫拖地机器人的发展历程.docx内容已存在，跳过！
+2026-03-18 11:11:45,584 - agent - INFO - file_handler.py:37- [md5计算]D:\AI_project\ServiceAgent\data\扫拖机器人主流品牌全介绍.pdf文件md5计算成功，结果为6e49375012dd4228351a9477925a68c8
+2026-03-18 11:11:45,584 - agent - INFO - vector_store.py:78- [加载知识库]D:\AI_project\ServiceAgent\data\扫拖机器人主流品牌全介绍.pdf内容已存在，跳过！
+2026-03-18 11:11:45,591 - agent - INFO - file_handler.py:37- [md5计算]D:\AI_project\ServiceAgent\data\拖地机器人100问.txt文件md5计算成功，结果为4ca130614f3196cfa0d9fdce75302a00
+2026-03-18 11:11:45,592 - agent - INFO - vector_store.py:78- [加载知识库]D:\AI_project\ServiceAgent\data\拖地机器人100问.txt内容已存在，跳过！
+2026-03-18 11:11:45,594 - agent - INFO - file_handler.py:37- [md5计算]D:\AI_project\ServiceAgent\data\故障排除.txt文件md5计算成功，结果为9cf985693b02a9008afbcc31829a04d4
+2026-03-18 11:11:45,594 - agent - INFO - vector_store.py:78- [加载知识库]D:\AI_project\ServiceAgent\data\故障排除.txt内容已存在，跳过！
+2026-03-18 11:11:45,596 - agent - INFO - file_handler.py:37- [md5计算]D:\AI_project\ServiceAgent\data\维修保养.txt文件md5计算成功，结果为0d8da393f8f05601c80afdb7c2e8981a
+2026-03-18 11:11:45,596 - agent - INFO - vector_store.py:78- [加载知识库]D:\AI_project\ServiceAgent\data\维修保养.txt内容已存在，跳过！
+2026-03-18 11:11:45,599 - agent - INFO - file_handler.py:37- [md5计算]D:\AI_project\ServiceAgent\data\选购指南.txt文件md5计算成功，结果为711002ebe8a4c6acba3e24dd366514ec
+2026-03-18 11:11:45,599 - agent - INFO - vector_store.py:78- [加载知识库]D:\AI_project\ServiceAgent\data\选购指南.txt内容已存在，跳过！
+2026-03-18 12:02:50,238 - agent - INFO - file_handler.py:37- [md5计算]D:\AI_project\ServiceAgent\data\扫地机器人100问.txt文件md5计算成功，结果为ceb20feabec8b3807d94c06ffd8a7dfa
+2026-03-18 12:02:50,238 - agent - INFO - vector_store.py:78- [加载知识库]D:\AI_project\ServiceAgent\data\扫地机器人100问.txt内容已存在，跳过！
+2026-03-18 12:02:50,239 - agent - INFO - file_handler.py:37- [md5计算]D:\AI_project\ServiceAgent\data\扫拖地机器人的发展历程.docx文件md5计算成功，结果为f7008cbe32336b78bb71a26266ac9d4a
+2026-03-18 12:02:50,239 - agent - INFO - vector_store.py:78- [加载知识库]D:\AI_project\ServiceAgent\data\扫拖地机器人的发展历程.docx内容已存在，跳过！
+2026-03-18 12:02:50,240 - agent - INFO - file_handler.py:37- [md5计算]D:\AI_project\ServiceAgent\data\扫拖机器人主流品牌全介绍.pdf文件md5计算成功，结果为6e49375012dd4228351a9477925a68c8
+2026-03-18 12:02:50,241 - agent - INFO - vector_store.py:78- [加载知识库]D:\AI_project\ServiceAgent\data\扫拖机器人主流品牌全介绍.pdf内容已存在，跳过！
+2026-03-18 12:02:50,241 - agent - INFO - file_handler.py:37- [md5计算]D:\AI_project\ServiceAgent\data\拖地机器人100问.txt文件md5计算成功，结果为4ca130614f3196cfa0d9fdce75302a00
+2026-03-18 12:02:50,242 - agent - INFO - vector_store.py:78- [加载知识库]D:\AI_project\ServiceAgent\data\拖地机器人100问.txt内容已存在，跳过！
+2026-03-18 12:02:50,242 - agent - INFO - file_handler.py:37- [md5计算]D:\AI_project\ServiceAgent\data\故障排除.txt文件md5计算成功，结果为9cf985693b02a9008afbcc31829a04d4
+2026-03-18 12:02:50,244 - agent - INFO - vector_store.py:78- [加载知识库]D:\AI_project\ServiceAgent\data\故障排除.txt内容已存在，跳过！
+2026-03-18 12:02:50,244 - agent - INFO - file_handler.py:37- [md5计算]D:\AI_project\ServiceAgent\data\维修保养.txt文件md5计算成功，结果为0d8da393f8f05601c80afdb7c2e8981a
+2026-03-18 12:02:50,245 - agent - INFO - vector_store.py:78- [加载知识库]D:\AI_project\ServiceAgent\data\维修保养.txt内容已存在，跳过！
+2026-03-18 12:02:50,245 - agent - INFO - file_handler.py:37- [md5计算]D:\AI_project\ServiceAgent\data\选购指南.txt文件md5计算成功，结果为711002ebe8a4c6acba3e24dd366514ec
+2026-03-18 12:02:50,246 - agent - INFO - vector_store.py:78- [加载知识库]D:\AI_project\ServiceAgent\data\选购指南.txt内容已存在，跳过！
+2026-03-18 12:03:27,780 - agent - INFO - file_handler.py:37- [md5计算]D:\AI_project\ServiceAgent\data\扫地机器人100问.txt文件md5计算成功，结果为ceb20feabec8b3807d94c06ffd8a7dfa
+2026-03-18 12:03:27,781 - agent - INFO - vector_store.py:78- [加载知识库]D:\AI_project\ServiceAgent\data\扫地机器人100问.txt内容已存在，跳过！
+2026-03-18 12:03:27,781 - agent - INFO - file_handler.py:37- [md5计算]D:\AI_project\ServiceAgent\data\扫拖地机器人的发展历程.docx文件md5计算成功，结果为f7008cbe32336b78bb71a26266ac9d4a
+2026-03-18 12:03:27,782 - agent - INFO - vector_store.py:78- [加载知识库]D:\AI_project\ServiceAgent\data\扫拖地机器人的发展历程.docx内容已存在，跳过！
+2026-03-18 12:03:27,783 - agent - INFO - file_handler.py:37- [md5计算]D:\AI_project\ServiceAgent\data\扫拖机器人主流品牌全介绍.pdf文件md5计算成功，结果为6e49375012dd4228351a9477925a68c8
+2026-03-18 12:03:27,784 - agent - INFO - vector_store.py:78- [加载知识库]D:\AI_project\ServiceAgent\data\扫拖机器人主流品牌全介绍.pdf内容已存在，跳过！
+2026-03-18 12:03:27,784 - agent - INFO - file_handler.py:37- [md5计算]D:\AI_project\ServiceAgent\data\拖地机器人100问.txt文件md5计算成功，结果为4ca130614f3196cfa0d9fdce75302a00
+2026-03-18 12:03:27,784 - agent - INFO - vector_store.py:78- [加载知识库]D:\AI_project\ServiceAgent\data\拖地机器人100问.txt内容已存在，跳过！
+2026-03-18 12:03:27,785 - agent - INFO - file_handler.py:37- [md5计算]D:\AI_project\ServiceAgent\data\故障排除.txt文件md5计算成功，结果为9cf985693b02a9008afbcc31829a04d4
+2026-03-18 12:03:27,785 - agent - INFO - vector_store.py:78- [加载知识库]D:\AI_project\ServiceAgent\data\故障排除.txt内容已存在，跳过！
+2026-03-18 12:03:27,786 - agent - INFO - file_handler.py:37- [md5计算]D:\AI_project\ServiceAgent\data\维修保养.txt文件md5计算成功，结果为0d8da393f8f05601c80afdb7c2e8981a
+2026-03-18 12:03:27,786 - agent - INFO - vector_store.py:78- [加载知识库]D:\AI_project\ServiceAgent\data\维修保养.txt内容已存在，跳过！
+2026-03-18 12:03:27,787 - agent - INFO - file_handler.py:37- [md5计算]D:\AI_project\ServiceAgent\data\选购指南.txt文件md5计算成功，结果为711002ebe8a4c6acba3e24dd366514ec
+2026-03-18 12:03:27,787 - agent - INFO - vector_store.py:78- [加载知识库]D:\AI_project\ServiceAgent\data\选购指南.txt内容已存在，跳过！
+2026-03-18 12:03:28,004 - agent - INFO - middleware.py:46- [模型即将被调用]:带有1条消息
+2026-03-18 12:03:28,004 - agent - DEBUG - middleware.py:48- [模型即将被调用]: HumanMessage | 请给我一个智能扫地机器人的型号推荐
+2026-03-18 12:03:30,979 - agent - INFO - middleware.py:26- [工具调用]: rag_summarize
+2026-03-18 12:03:30,980 - agent - INFO - middleware.py:27- [工具参数]: {'query': '智能扫地机器人型号推荐 选购指南'}
+2026-03-18 12:03:38,029 - agent - INFO - middleware.py:31- [工具调用]: rag_summarize调用成功
+2026-03-18 12:03:40,299 - agent - INFO - middleware.py:46- [模型即将被调用]:带有3条消息
+2026-03-18 12:03:40,299 - agent - DEBUG - middleware.py:48- [模型即将被调用]: ToolMessage | 选购智能扫地机器人时，建议优先考虑扫拖一体机型，日常使用足够；导航方面激光导航（LDS）更稳定；若追求省心，可选带自动集尘和自动清洗拖布功能的型号；滚刷清洁力强，但无滚刷设计更适合有宠物或毛发多的家庭。热风烘干功能有必要，可防拖布发霉发臭。小户型1000–2000元基础款即可满足需求。注意：拖地机器人不适用于地毯，木地板需选择可调节水量的机型，瓷砖和大理石地面效果最佳。主流机型普遍支持小爱、天猫精灵、小度等语音控制。
+2026-03-18 12:06:05,840 - agent - INFO - middleware.py:46- [模型即将被调用]:带有1条消息
+2026-03-18 12:06:05,840 - agent - DEBUG - middleware.py:48- [模型即将被调用]: HumanMessage | 激光导航系统？你能解释一下吗？
+2026-03-18 12:06:10,159 - agent - INFO - middleware.py:26- [工具调用]: rag_summarize
+2026-03-18 12:06:10,160 - agent - INFO - middleware.py:27- [工具参数]: {'query': '激光导航系统 扫地机器人 原理'}
+2026-03-18 12:06:14,449 - agent - INFO - middleware.py:31- [工具调用]: rag_summarize调用成功
+2026-03-18 12:06:15,434 - agent - INFO - middleware.py:46- [模型即将被调用]:带有3条消息
+2026-03-18 12:06:15,434 - agent - DEBUG - middleware.py:48- [模型即将被调用]: ToolMessage | 激光导航系统通过LDS（激光测距传感器）发射激光并接收反射信号，实时构建环境地图，实现精准定位与路径规划，使扫地机器人能够有序清扫、避免乱撞。参考资料指出激光导航比视觉导航更稳定。
+2026-03-18 12:06:51,248 - agent - INFO - middleware.py:46- [模型即将被调用]:带有1条消息
+2026-03-18 12:06:51,248 - agent - DEBUG - middleware.py:48- [模型即将被调用]: HumanMessage | 这个激光导航系统会影响扫地机器人的成本吗？
+2026-03-18 12:06:55,458 - agent - INFO - middleware.py:26- [工具调用]: rag_summarize
+2026-03-18 12:06:55,459 - agent - INFO - middleware.py:27- [工具参数]: {'query': '激光导航系统对扫地机器人成本的影响'}
+2026-03-18 12:07:02,751 - agent - INFO - middleware.py:31- [工具调用]: rag_summarize调用成功
+2026-03-18 12:07:03,381 - agent - INFO - middleware.py:46- [模型即将被调用]:带有3条消息
+2026-03-18 12:07:03,381 - agent - DEBUG - middleware.py:48- [模型即将被调用]: ToolMessage | 激光导航系统会提高扫地机器人的成本，但参考资料中未明确说明具体影响程度，仅指出激光导航相比视觉导航更稳定、更准确。
+2026-03-18 12:09:16,767 - agent - INFO - middleware.py:46- [模型即将被调用]:带有1条消息
+2026-03-18 12:09:16,768 - agent - DEBUG - middleware.py:48- [模型即将被调用]: HumanMessage | 你还是告诉我扫地机器人的主流品牌吧。哪些主流品牌能支持天猫精灵语音助手的控制呢？
+2026-03-18 12:09:23,254 - agent - INFO - middleware.py:26- [工具调用]: rag_summarize
+2026-03-18 12:09:23,255 - agent - INFO - middleware.py:27- [工具参数]: {'query': '支持天猫精灵语音助手的扫地机器人主流品牌'}
+2026-03-18 12:09:31,507 - agent - INFO - middleware.py:31- [工具调用]: rag_summarize调用成功
+2026-03-18 12:09:32,218 - agent - INFO - middleware.py:46- [模型即将被调用]:带有3条消息
+2026-03-18 12:09:32,218 - agent - DEBUG - middleware.py:48- [模型即将被调用]: ToolMessage | 主流扫地机器人品牌普遍支持天猫精灵语音助手，参考资料中提到“主流机型支持小爱、天猫精灵、小度等”以及“小爱、天猫、小度一般都有”。
+2026-03-18 12:10:21,485 - agent - INFO - middleware.py:46- [模型即将被调用]:带有1条消息
+2026-03-18 12:10:21,487 - agent - DEBUG - middleware.py:48- [模型即将被调用]: HumanMessage | 请根据前文生成我的推荐购买报告
+2026-03-18 12:10:27,853 - agent - INFO - middleware.py:26- [工具调用]: get_user_id
+2026-03-18 12:10:27,853 - agent - INFO - middleware.py:27- [工具参数]: {}
+2026-03-18 12:10:27,854 - agent - INFO - middleware.py:31- [工具调用]: get_user_id调用成功
+2026-03-18 12:10:27,909 - agent - INFO - middleware.py:46- [模型即将被调用]:带有3条消息
+2026-03-18 12:10:27,910 - agent - DEBUG - middleware.py:48- [模型即将被调用]: ToolMessage | 1003
+2026-03-18 12:10:29,443 - agent - INFO - middleware.py:26- [工具调用]: get_current_month
+2026-03-18 12:10:29,443 - agent - INFO - middleware.py:27- [工具参数]: {}
+2026-03-18 12:10:29,444 - agent - INFO - middleware.py:31- [工具调用]: get_current_month调用成功
+2026-03-18 12:10:29,531 - agent - INFO - middleware.py:46- [模型即将被调用]:带有5条消息
+2026-03-18 12:10:29,531 - agent - DEBUG - middleware.py:48- [模型即将被调用]: ToolMessage | 2025-06
+2026-03-18 12:10:33,013 - agent - INFO - middleware.py:26- [工具调用]: fill_context_for_report
+2026-03-18 12:10:33,013 - agent - INFO - middleware.py:27- [工具参数]: {}
+2026-03-18 12:10:33,014 - agent - INFO - middleware.py:31- [工具调用]: fill_context_for_report调用成功
+2026-03-18 12:10:33,325 - agent - INFO - middleware.py:46- [模型即将被调用]:带有7条消息
+2026-03-18 12:10:33,325 - agent - DEBUG - middleware.py:48- [模型即将被调用]: ToolMessage | 已调用【fill_context_for_report]
+2026-03-18 12:10:39,575 - agent - INFO - middleware.py:26- [工具调用]: fetch_external_data
+2026-03-18 12:10:39,575 - agent - INFO - middleware.py:27- [工具参数]: {'user_id': '1003', 'month': '2025-06'}
+2026-03-18 12:10:39,586 - agent - WARNING - agent_tools.py:94- 未能查询到1003在2025-06的使用记录
+2026-03-18 12:10:39,586 - agent - INFO - middleware.py:31- [工具调用]: fetch_external_data调用成功
+2026-03-18 12:10:39,588 - agent - INFO - middleware.py:46- [模型即将被调用]:带有9条消息
+2026-03-18 12:10:39,588 - agent - DEBUG - middleware.py:48- [模型即将被调用]: ToolMessage | 
+2026-03-18 12:10:44,928 - agent - INFO - middleware.py:26- [工具调用]: rag_summarize
+2026-03-18 12:10:44,929 - agent - INFO - middleware.py:27- [工具参数]: {'query': '扫地机器人选购指南 关键参数 性能指标'}
+2026-03-18 12:10:53,116 - agent - INFO - middleware.py:31- [工具调用]: rag_summarize调用成功
+2026-03-18 12:10:55,001 - agent - INFO - middleware.py:46- [模型即将被调用]:带有11条消息
+2026-03-18 12:10:55,001 - agent - DEBUG - middleware.py:48- [模型即将被调用]: ToolMessage | 选购扫地机器人需关注以下关键参数与性能指标：导航方式优先选择激光导航（LDS），稳定性优于视觉导航；扫拖一体功能日常够用；自动集尘和自动清洗拖布对懒人实用；滚刷清洁力强，但无滚刷更防毛发缠绕；路线规划能力影响对桌椅腿等复杂区域的清洁效果；需注意是否易卷数据线、能否有效清理宠物细毛、拖地是否留水渍、刷头是否刮蹭地板，以及使用清洁液后是否产生异味。
+2026-03-18 12:10:58,490 - agent - INFO - middleware.py:26- [工具调用]: rag_summarize
+2026-03-18 12:10:58,490 - agent - INFO - middleware.py:27- [工具参数]: {'query': '扫地机器人维护保养建议 使用寿命延长方法'}
+2026-03-18 12:11:06,397 - agent - INFO - middleware.py:31- [工具调用]: rag_summarize调用成功
+2026-03-18 12:11:09,135 - agent - INFO - middleware.py:46- [模型即将被调用]:带有13条消息
+2026-03-18 12:11:09,136 - agent - DEBUG - middleware.py:48- [模型即将被调用]: ToolMessage | 日常使用中，每次清空尘盒、检查边刷和轮子是否缠绕毛发，拖地款需倒掉水箱余水并晾干拖布；每周清理主刷毛发、吸口及传感器（包括防撞、防跌落、激光头等）；每月清洗滤网（晾干勿暴晒）、尘盒、水箱，检查边刷状态，拖地款还需清洗出水孔；每半年至一年更换滤网、边刷、主刷、拖布等耗材，清理内部风道，并检查电池续航是否明显下降；保持良好使用习惯，避免在强光、镜面或太暗环境工作，收好地面杂物，拖地仅用清水或专用清洁液，长期不用时充满电存放于干燥处并每月补电；注意预判故障，如机器走不动或异响，可能为主刷或轮子缠毛、进水。

@@ -1,0 +1,17 @@
+2026-03-07 20:08:05,526 - agent - INFO - middleware.py:41- [模型即将被调用]:带有1条消息
+2026-03-07 20:08:05,527 - agent - DEBUG - middleware.py:43- [模型即将被调用]: HumanMessage | 当前我所在的天气下，机器人如何保养？
+2026-03-07 20:08:11,290 - agent - INFO - middleware.py:21- [工具调用]: get_location
+2026-03-07 20:08:11,290 - agent - INFO - middleware.py:22- [工具参数]: {}
+2026-03-07 20:08:11,291 - agent - INFO - middleware.py:26- [工具调用]: get_location调用成功
+2026-03-07 20:08:11,324 - agent - INFO - middleware.py:41- [模型即将被调用]:带有3条消息
+2026-03-07 20:08:11,325 - agent - DEBUG - middleware.py:43- [模型即将被调用]: ToolMessage | 北京
+2026-03-07 20:08:16,836 - agent - INFO - middleware.py:21- [工具调用]: get_weather
+2026-03-07 20:08:16,836 - agent - INFO - middleware.py:22- [工具参数]: {'city': '北京'}
+2026-03-07 20:08:16,838 - agent - INFO - middleware.py:26- [工具调用]: get_weather调用成功
+2026-03-07 20:08:17,387 - agent - INFO - middleware.py:41- [模型即将被调用]:带有5条消息
+2026-03-07 20:08:17,387 - agent - DEBUG - middleware.py:43- [模型即将被调用]: ToolMessage | 城市北京天气为晴天，气温25摄氏度，空气湿度50%，南风1级，AQI21，最近6小时内降雨概率极低。
+2026-03-07 20:08:22,707 - agent - INFO - middleware.py:21- [工具调用]: rag_summarize
+2026-03-07 20:08:22,707 - agent - INFO - middleware.py:22- [工具参数]: {'query': '晴天25度湿度50%环境下扫地机器人保养建议'}
+2026-03-07 20:08:25,748 - agent - INFO - middleware.py:26- [工具调用]: rag_summarize调用成功
+2026-03-07 20:08:26,478 - agent - INFO - middleware.py:41- [模型即将被调用]:带有7条消息
+2026-03-07 20:08:26,479 - agent - DEBUG - middleware.py:43- [模型即将被调用]: ToolMessage | 在晴天25度、湿度50%的环境下，应定期清理扫地机器人的尘盒、滤网和滚刷，保持机身干燥，避免阳光直射存放，并确保充电座置于通风干燥处。

@@ -1,0 +1,129 @@
+2026-03-21 15:22:32,299 - agent - INFO - file_handler.py:37- [md5计算]D:\AI_project\ServiceAgent\data\扫地机器人100问.txt文件md5计算成功，结果为ceb20feabec8b3807d94c06ffd8a7dfa
+2026-03-21 15:22:32,310 - agent - INFO - vector_store.py:204- [加载知识库]D:\AI_project\ServiceAgent\data\扫地机器人100问.txt内容已存在，跳过！
+2026-03-21 15:22:32,711 - agent - INFO - file_handler.py:37- [md5计算]D:\AI_project\ServiceAgent\data\扫拖地机器人的发展历程.docx文件md5计算成功，结果为f7008cbe32336b78bb71a26266ac9d4a
+2026-03-21 15:22:32,711 - agent - INFO - vector_store.py:204- [加载知识库]D:\AI_project\ServiceAgent\data\扫拖地机器人的发展历程.docx内容已存在，跳过！
+2026-03-21 15:22:32,727 - agent - INFO - file_handler.py:37- [md5计算]D:\AI_project\ServiceAgent\data\扫拖机器人主流品牌全介绍.pdf文件md5计算成功，结果为6e49375012dd4228351a9477925a68c8
+2026-03-21 15:22:32,727 - agent - INFO - vector_store.py:204- [加载知识库]D:\AI_project\ServiceAgent\data\扫拖机器人主流品牌全介绍.pdf内容已存在，跳过！
+2026-03-21 15:22:32,734 - agent - INFO - file_handler.py:37- [md5计算]D:\AI_project\ServiceAgent\data\拖地机器人100问.txt文件md5计算成功，结果为4ca130614f3196cfa0d9fdce75302a00
+2026-03-21 15:22:32,735 - agent - INFO - vector_store.py:204- [加载知识库]D:\AI_project\ServiceAgent\data\拖地机器人100问.txt内容已存在，跳过！
+2026-03-21 15:22:32,743 - agent - INFO - file_handler.py:37- [md5计算]D:\AI_project\ServiceAgent\data\故障排除.txt文件md5计算成功，结果为9cf985693b02a9008afbcc31829a04d4
+2026-03-21 15:22:32,743 - agent - INFO - vector_store.py:204- [加载知识库]D:\AI_project\ServiceAgent\data\故障排除.txt内容已存在，跳过！
+2026-03-21 15:22:32,752 - agent - INFO - file_handler.py:37- [md5计算]D:\AI_project\ServiceAgent\data\维修保养.txt文件md5计算成功，结果为0d8da393f8f05601c80afdb7c2e8981a
+2026-03-21 15:22:32,753 - agent - INFO - vector_store.py:204- [加载知识库]D:\AI_project\ServiceAgent\data\维修保养.txt内容已存在，跳过！
+2026-03-21 15:22:32,760 - agent - INFO - file_handler.py:37- [md5计算]D:\AI_project\ServiceAgent\data\选购指南.txt文件md5计算成功，结果为711002ebe8a4c6acba3e24dd366514ec
+2026-03-21 15:22:32,761 - agent - INFO - vector_store.py:204- [加载知识库]D:\AI_project\ServiceAgent\data\选购指南.txt内容已存在，跳过！
+2026-03-21 15:24:16,141 - agent - INFO - file_handler.py:37- [md5计算]D:\AI_project\ServiceAgent\data\扫地机器人100问.txt文件md5计算成功，结果为ceb20feabec8b3807d94c06ffd8a7dfa
+2026-03-21 15:24:16,142 - agent - INFO - vector_store.py:204- [加载知识库]D:\AI_project\ServiceAgent\data\扫地机器人100问.txt内容已存在，跳过！
+2026-03-21 15:24:16,142 - agent - INFO - file_handler.py:37- [md5计算]D:\AI_project\ServiceAgent\data\扫拖地机器人的发展历程.docx文件md5计算成功，结果为f7008cbe32336b78bb71a26266ac9d4a
+2026-03-21 15:24:16,143 - agent - INFO - vector_store.py:204- [加载知识库]D:\AI_project\ServiceAgent\data\扫拖地机器人的发展历程.docx内容已存在，跳过！
+2026-03-21 15:24:16,144 - agent - INFO - file_handler.py:37- [md5计算]D:\AI_project\ServiceAgent\data\扫拖机器人主流品牌全介绍.pdf文件md5计算成功，结果为6e49375012dd4228351a9477925a68c8
+2026-03-21 15:24:16,144 - agent - INFO - vector_store.py:204- [加载知识库]D:\AI_project\ServiceAgent\data\扫拖机器人主流品牌全介绍.pdf内容已存在，跳过！
+2026-03-21 15:24:16,146 - agent - INFO - file_handler.py:37- [md5计算]D:\AI_project\ServiceAgent\data\拖地机器人100问.txt文件md5计算成功，结果为4ca130614f3196cfa0d9fdce75302a00
+2026-03-21 15:24:16,146 - agent - INFO - vector_store.py:204- [加载知识库]D:\AI_project\ServiceAgent\data\拖地机器人100问.txt内容已存在，跳过！
+2026-03-21 15:24:16,147 - agent - INFO - file_handler.py:37- [md5计算]D:\AI_project\ServiceAgent\data\故障排除.txt文件md5计算成功，结果为9cf985693b02a9008afbcc31829a04d4
+2026-03-21 15:24:16,147 - agent - INFO - vector_store.py:204- [加载知识库]D:\AI_project\ServiceAgent\data\故障排除.txt内容已存在，跳过！
+2026-03-21 15:24:16,147 - agent - INFO - file_handler.py:37- [md5计算]D:\AI_project\ServiceAgent\data\维修保养.txt文件md5计算成功，结果为0d8da393f8f05601c80afdb7c2e8981a
+2026-03-21 15:24:16,147 - agent - INFO - vector_store.py:204- [加载知识库]D:\AI_project\ServiceAgent\data\维修保养.txt内容已存在，跳过！
+2026-03-21 15:24:16,148 - agent - INFO - file_handler.py:37- [md5计算]D:\AI_project\ServiceAgent\data\选购指南.txt文件md5计算成功，结果为711002ebe8a4c6acba3e24dd366514ec
+2026-03-21 15:24:16,148 - agent - INFO - vector_store.py:204- [加载知识库]D:\AI_project\ServiceAgent\data\选购指南.txt内容已存在，跳过！
+2026-03-21 15:24:16,180 - agent - INFO - db_service.py:15- [数据库服务]服务初始化完成
+2026-03-21 15:42:44,445 - agent - INFO - file_handler.py:37- [md5计算]D:\AI_project\ServiceAgent\data\扫地机器人100问.txt文件md5计算成功，结果为ceb20feabec8b3807d94c06ffd8a7dfa
+2026-03-21 15:42:44,445 - agent - INFO - vector_store.py:204- [加载知识库]D:\AI_project\ServiceAgent\data\扫地机器人100问.txt内容已存在，跳过！
+2026-03-21 15:42:44,446 - agent - INFO - file_handler.py:37- [md5计算]D:\AI_project\ServiceAgent\data\扫拖地机器人的发展历程.docx文件md5计算成功，结果为f7008cbe32336b78bb71a26266ac9d4a
+2026-03-21 15:42:44,446 - agent - INFO - vector_store.py:204- [加载知识库]D:\AI_project\ServiceAgent\data\扫拖地机器人的发展历程.docx内容已存在，跳过！
+2026-03-21 15:42:44,448 - agent - INFO - file_handler.py:37- [md5计算]D:\AI_project\ServiceAgent\data\扫拖机器人主流品牌全介绍.pdf文件md5计算成功，结果为6e49375012dd4228351a9477925a68c8
+2026-03-21 15:42:44,448 - agent - INFO - vector_store.py:204- [加载知识库]D:\AI_project\ServiceAgent\data\扫拖机器人主流品牌全介绍.pdf内容已存在，跳过！
+2026-03-21 15:42:44,449 - agent - INFO - file_handler.py:37- [md5计算]D:\AI_project\ServiceAgent\data\拖地机器人100问.txt文件md5计算成功，结果为4ca130614f3196cfa0d9fdce75302a00
+2026-03-21 15:42:44,449 - agent - INFO - vector_store.py:204- [加载知识库]D:\AI_project\ServiceAgent\data\拖地机器人100问.txt内容已存在，跳过！
+2026-03-21 15:42:44,449 - agent - INFO - file_handler.py:37- [md5计算]D:\AI_project\ServiceAgent\data\故障排除.txt文件md5计算成功，结果为9cf985693b02a9008afbcc31829a04d4
+2026-03-21 15:42:44,450 - agent - INFO - vector_store.py:204- [加载知识库]D:\AI_project\ServiceAgent\data\故障排除.txt内容已存在，跳过！
+2026-03-21 15:42:44,450 - agent - INFO - file_handler.py:37- [md5计算]D:\AI_project\ServiceAgent\data\维修保养.txt文件md5计算成功，结果为0d8da393f8f05601c80afdb7c2e8981a
+2026-03-21 15:42:44,451 - agent - INFO - vector_store.py:204- [加载知识库]D:\AI_project\ServiceAgent\data\维修保养.txt内容已存在，跳过！
+2026-03-21 15:42:44,451 - agent - INFO - file_handler.py:37- [md5计算]D:\AI_project\ServiceAgent\data\选购指南.txt文件md5计算成功，结果为711002ebe8a4c6acba3e24dd366514ec
+2026-03-21 15:42:44,452 - agent - INFO - vector_store.py:204- [加载知识库]D:\AI_project\ServiceAgent\data\选购指南.txt内容已存在，跳过！
+2026-03-21 15:42:44,491 - agent - INFO - db_service.py:15- [数据库服务]服务初始化完成
+2026-03-21 15:43:44,643 - agent - WARNING - vector_store.py:39- [向量库]文档分割后为空，跳过添加
+2026-03-21 15:43:44,644 - agent - ERROR - app.py:165- 文件 测试文档添加.docx 添加失败
+2026-03-21 15:44:02,126 - agent - INFO - vector_store.py:132- [向量库]搜索完成，查询: 测试文档添加，返回 3 条结果
+2026-03-21 15:44:02,126 - agent - INFO - db_service.py:114- [数据库服务]搜索完成，查询: 测试文档添加，返回 3 条结果
+2026-03-21 15:44:22,143 - agent - WARNING - vector_store.py:39- [向量库]文档分割后为空，跳过添加
+2026-03-21 15:44:22,145 - agent - ERROR - app.py:165- 文件 测试文档添加.docx 添加失败
+2026-03-21 15:46:13,440 - agent - INFO - file_handler.py:37- [md5计算]D:\AI_project\ServiceAgent\data\扫地机器人100问.txt文件md5计算成功，结果为ceb20feabec8b3807d94c06ffd8a7dfa
+2026-03-21 15:46:13,440 - agent - INFO - vector_store.py:204- [加载知识库]D:\AI_project\ServiceAgent\data\扫地机器人100问.txt内容已存在，跳过！
+2026-03-21 15:46:13,441 - agent - INFO - file_handler.py:37- [md5计算]D:\AI_project\ServiceAgent\data\扫拖地机器人的发展历程.docx文件md5计算成功，结果为f7008cbe32336b78bb71a26266ac9d4a
+2026-03-21 15:46:13,441 - agent - INFO - vector_store.py:204- [加载知识库]D:\AI_project\ServiceAgent\data\扫拖地机器人的发展历程.docx内容已存在，跳过！
+2026-03-21 15:46:13,442 - agent - INFO - file_handler.py:37- [md5计算]D:\AI_project\ServiceAgent\data\扫拖机器人主流品牌全介绍.pdf文件md5计算成功，结果为6e49375012dd4228351a9477925a68c8
+2026-03-21 15:46:13,443 - agent - INFO - vector_store.py:204- [加载知识库]D:\AI_project\ServiceAgent\data\扫拖机器人主流品牌全介绍.pdf内容已存在，跳过！
+2026-03-21 15:46:13,443 - agent - INFO - file_handler.py:37- [md5计算]D:\AI_project\ServiceAgent\data\拖地机器人100问.txt文件md5计算成功，结果为4ca130614f3196cfa0d9fdce75302a00
+2026-03-21 15:46:13,444 - agent - INFO - vector_store.py:204- [加载知识库]D:\AI_project\ServiceAgent\data\拖地机器人100问.txt内容已存在，跳过！
+2026-03-21 15:46:13,444 - agent - INFO - file_handler.py:37- [md5计算]D:\AI_project\ServiceAgent\data\故障排除.txt文件md5计算成功，结果为9cf985693b02a9008afbcc31829a04d4
+2026-03-21 15:46:13,444 - agent - INFO - vector_store.py:204- [加载知识库]D:\AI_project\ServiceAgent\data\故障排除.txt内容已存在，跳过！
+2026-03-21 15:46:13,444 - agent - INFO - file_handler.py:37- [md5计算]D:\AI_project\ServiceAgent\data\维修保养.txt文件md5计算成功，结果为0d8da393f8f05601c80afdb7c2e8981a
+2026-03-21 15:46:13,446 - agent - INFO - vector_store.py:204- [加载知识库]D:\AI_project\ServiceAgent\data\维修保养.txt内容已存在，跳过！
+2026-03-21 15:46:13,446 - agent - INFO - file_handler.py:37- [md5计算]D:\AI_project\ServiceAgent\data\选购指南.txt文件md5计算成功，结果为711002ebe8a4c6acba3e24dd366514ec
+2026-03-21 15:46:13,447 - agent - INFO - vector_store.py:204- [加载知识库]D:\AI_project\ServiceAgent\data\选购指南.txt内容已存在，跳过！
+2026-03-21 15:46:13,480 - agent - INFO - db_service.py:15- [数据库服务]服务初始化完成
+2026-03-21 15:46:22,625 - agent - WARNING - vector_store.py:39- [向量库]文档分割后为空，跳过添加
+2026-03-21 15:46:22,627 - agent - ERROR - app.py:165- 文件 测试文档添加.docx 添加失败
+2026-03-21 15:51:27,169 - agent - INFO - file_handler.py:37- [md5计算]D:\AI_project\ServiceAgent\data\扫地机器人100问.txt文件md5计算成功，结果为ceb20feabec8b3807d94c06ffd8a7dfa
+2026-03-21 15:51:27,170 - agent - INFO - vector_store.py:204- [加载知识库]D:\AI_project\ServiceAgent\data\扫地机器人100问.txt内容已存在，跳过！
+2026-03-21 15:51:27,170 - agent - INFO - file_handler.py:37- [md5计算]D:\AI_project\ServiceAgent\data\扫拖地机器人的发展历程.docx文件md5计算成功，结果为f7008cbe32336b78bb71a26266ac9d4a
+2026-03-21 15:51:27,171 - agent - INFO - vector_store.py:204- [加载知识库]D:\AI_project\ServiceAgent\data\扫拖地机器人的发展历程.docx内容已存在，跳过！
+2026-03-21 15:51:27,172 - agent - INFO - file_handler.py:37- [md5计算]D:\AI_project\ServiceAgent\data\扫拖机器人主流品牌全介绍.pdf文件md5计算成功，结果为6e49375012dd4228351a9477925a68c8
+2026-03-21 15:51:27,173 - agent - INFO - vector_store.py:204- [加载知识库]D:\AI_project\ServiceAgent\data\扫拖机器人主流品牌全介绍.pdf内容已存在，跳过！
+2026-03-21 15:51:27,173 - agent - INFO - file_handler.py:37- [md5计算]D:\AI_project\ServiceAgent\data\拖地机器人100问.txt文件md5计算成功，结果为4ca130614f3196cfa0d9fdce75302a00
+2026-03-21 15:51:27,174 - agent - INFO - vector_store.py:204- [加载知识库]D:\AI_project\ServiceAgent\data\拖地机器人100问.txt内容已存在，跳过！
+2026-03-21 15:51:27,174 - agent - INFO - file_handler.py:37- [md5计算]D:\AI_project\ServiceAgent\data\故障排除.txt文件md5计算成功，结果为9cf985693b02a9008afbcc31829a04d4
+2026-03-21 15:51:27,175 - agent - INFO - vector_store.py:204- [加载知识库]D:\AI_project\ServiceAgent\data\故障排除.txt内容已存在，跳过！
+2026-03-21 15:51:27,175 - agent - INFO - file_handler.py:37- [md5计算]D:\AI_project\ServiceAgent\data\维修保养.txt文件md5计算成功，结果为0d8da393f8f05601c80afdb7c2e8981a
+2026-03-21 15:51:27,175 - agent - INFO - vector_store.py:204- [加载知识库]D:\AI_project\ServiceAgent\data\维修保养.txt内容已存在，跳过！
+2026-03-21 15:51:27,176 - agent - INFO - file_handler.py:37- [md5计算]D:\AI_project\ServiceAgent\data\选购指南.txt文件md5计算成功，结果为711002ebe8a4c6acba3e24dd366514ec
+2026-03-21 15:51:27,176 - agent - INFO - vector_store.py:204- [加载知识库]D:\AI_project\ServiceAgent\data\选购指南.txt内容已存在，跳过！
+2026-03-21 15:51:27,213 - agent - INFO - db_service.py:15- [数据库服务]服务初始化完成
+2026-03-21 15:51:34,778 - agent - WARNING - vector_store.py:39- [向量库]文档分割后为空，跳过添加
+2026-03-21 15:51:34,778 - agent - ERROR - db_service.py:30- [数据库服务]文档添加失败
+2026-03-21 15:51:34,778 - agent - ERROR - app.py:165- 文件 测试文档添加.docx 添加失败
+2026-03-21 15:52:53,553 - agent - WARNING - vector_store.py:39- [向量库]文档分割后为空，跳过添加
+2026-03-21 15:52:53,553 - agent - ERROR - db_service.py:30- [数据库服务]文档添加失败
+2026-03-21 15:52:53,555 - agent - ERROR - app.py:165- 文件 测试文档添加.docx 添加失败
+2026-03-21 15:52:53,555 - agent - ERROR - app.py:168- 处理文件 测试文档添加.docx 时出错: 'utf-8' codec can't decode byte 0xd2 in position 16: invalid continuation byte
+Traceback (most recent call last):
+  File "D:\AI_project\ServiceAgent\app.py", line 148, in <module>
+    content = file.read().decode("utf-8")
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xd2 in position 16: invalid continuation byte
+2026-03-21 15:52:58,016 - agent - ERROR - app.py:168- 处理文件 测试文档添加.docx 时出错: 'utf-8' codec can't decode byte 0xd2 in position 16: invalid continuation byte
+Traceback (most recent call last):
+  File "D:\AI_project\ServiceAgent\app.py", line 148, in <module>
+    content = file.read().decode("utf-8")
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xd2 in position 16: invalid continuation byte
+2026-03-21 15:53:40,979 - agent - INFO - file_handler.py:37- [md5计算]D:\AI_project\ServiceAgent\data\扫地机器人100问.txt文件md5计算成功，结果为ceb20feabec8b3807d94c06ffd8a7dfa
+2026-03-21 15:53:40,979 - agent - INFO - vector_store.py:204- [加载知识库]D:\AI_project\ServiceAgent\data\扫地机器人100问.txt内容已存在，跳过！
+2026-03-21 15:53:40,980 - agent - INFO - file_handler.py:37- [md5计算]D:\AI_project\ServiceAgent\data\扫拖地机器人的发展历程.docx文件md5计算成功，结果为f7008cbe32336b78bb71a26266ac9d4a
+2026-03-21 15:53:40,980 - agent - INFO - vector_store.py:204- [加载知识库]D:\AI_project\ServiceAgent\data\扫拖地机器人的发展历程.docx内容已存在，跳过！
+2026-03-21 15:53:40,981 - agent - INFO - file_handler.py:37- [md5计算]D:\AI_project\ServiceAgent\data\扫拖机器人主流品牌全介绍.pdf文件md5计算成功，结果为6e49375012dd4228351a9477925a68c8
+2026-03-21 15:53:40,982 - agent - INFO - vector_store.py:204- [加载知识库]D:\AI_project\ServiceAgent\data\扫拖机器人主流品牌全介绍.pdf内容已存在，跳过！
+2026-03-21 15:53:40,982 - agent - INFO - file_handler.py:37- [md5计算]D:\AI_project\ServiceAgent\data\拖地机器人100问.txt文件md5计算成功，结果为4ca130614f3196cfa0d9fdce75302a00
+2026-03-21 15:53:40,983 - agent - INFO - vector_store.py:204- [加载知识库]D:\AI_project\ServiceAgent\data\拖地机器人100问.txt内容已存在，跳过！
+2026-03-21 15:53:40,983 - agent - INFO - file_handler.py:37- [md5计算]D:\AI_project\ServiceAgent\data\故障排除.txt文件md5计算成功，结果为9cf985693b02a9008afbcc31829a04d4
+2026-03-21 15:53:40,984 - agent - INFO - vector_store.py:204- [加载知识库]D:\AI_project\ServiceAgent\data\故障排除.txt内容已存在，跳过！
+2026-03-21 15:53:40,984 - agent - INFO - file_handler.py:37- [md5计算]D:\AI_project\ServiceAgent\data\维修保养.txt文件md5计算成功，结果为0d8da393f8f05601c80afdb7c2e8981a
+2026-03-21 15:53:40,985 - agent - INFO - vector_store.py:204- [加载知识库]D:\AI_project\ServiceAgent\data\维修保养.txt内容已存在，跳过！
+2026-03-21 15:53:40,985 - agent - INFO - file_handler.py:37- [md5计算]D:\AI_project\ServiceAgent\data\选购指南.txt文件md5计算成功，结果为711002ebe8a4c6acba3e24dd366514ec
+2026-03-21 15:53:40,986 - agent - INFO - vector_store.py:204- [加载知识库]D:\AI_project\ServiceAgent\data\选购指南.txt内容已存在，跳过！
+2026-03-21 15:53:41,023 - agent - INFO - db_service.py:15- [数据库服务]服务初始化完成
+2026-03-21 15:53:50,039 - agent - ERROR - app.py:168- 处理文件 测试文档添加.docx 时出错: 'utf-8' codec can't decode byte 0xd2 in position 16: invalid continuation byte
+Traceback (most recent call last):
+  File "D:\AI_project\ServiceAgent\app.py", line 148, in <module>
+    content = file.read().decode("utf-8")
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xd2 in position 16: invalid continuation byte
+2026-03-21 15:54:39,674 - agent - ERROR - app.py:168- 处理文件 测试文档添加.docx 时出错: 'utf-8' codec can't decode byte 0xd2 in position 16: invalid continuation byte
+Traceback (most recent call last):
+  File "D:\AI_project\ServiceAgent\app.py", line 148, in <module>
+    content = file.read().decode("utf-8")
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xd2 in position 16: invalid continuation byte
+2026-03-21 16:10:25,214 - agent - INFO - vector_store.py:132- [向量库]搜索完成，查询: 机器人，返回 3 条结果
+2026-03-21 16:10:25,214 - agent - INFO - db_service.py:118- [数据库服务]搜索完成，查询: 机器人，返回 3 条结果

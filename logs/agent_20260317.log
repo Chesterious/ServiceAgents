@@ -1,0 +1,71 @@
+2026-03-17 11:17:22,581 - agent - INFO - middleware.py:46- [模型即将被调用]:带有1条消息
+2026-03-17 11:17:22,582 - agent - DEBUG - middleware.py:48- [模型即将被调用]: HumanMessage | 我买了机器人，开机没反应怎么办？
+2026-03-17 11:17:25,173 - agent - INFO - middleware.py:26- [工具调用]: rag_summarize
+2026-03-17 11:17:25,173 - agent - INFO - middleware.py:27- [工具参数]: {'query': '扫地机器人开机没反应 故障排查'}
+2026-03-17 11:17:28,877 - agent - INFO - middleware.py:31- [工具调用]: rag_summarize调用成功
+2026-03-17 11:17:29,558 - agent - INFO - middleware.py:46- [模型即将被调用]:带有3条消息
+2026-03-17 11:17:29,559 - agent - DEBUG - middleware.py:48- [模型即将被调用]: ToolMessage | 检查电源是否接通，确认电池是否有电；查看电源开关是否打开；确保充电座连接正常且接触良好；若仍无反应，尝试长按复位键重启设备。
+2026-03-17 11:18:09,137 - agent - INFO - middleware.py:46- [模型即将被调用]:带有1条消息
+2026-03-17 11:18:09,137 - agent - DEBUG - middleware.py:48- [模型即将被调用]: HumanMessage | 拖地机器人需要基站吗？
+2026-03-17 11:18:10,854 - agent - INFO - middleware.py:26- [工具调用]: rag_summarize
+2026-03-17 11:18:10,854 - agent - INFO - middleware.py:27- [工具参数]: {'query': '拖地机器人是否需要基站'}
+2026-03-17 11:18:18,436 - agent - INFO - middleware.py:31- [工具调用]: rag_summarize调用成功
+2026-03-17 11:18:18,983 - agent - INFO - middleware.py:46- [模型即将被调用]:带有3条消息
+2026-03-17 11:18:18,983 - agent - DEBUG - middleware.py:48- [模型即将被调用]: ToolMessage | 部分拖地机器人需要基站，用于自动清洗拖布、补水或充电，但并非所有型号都配备基站，具体取决于产品设计。
+2026-03-17 11:20:50,453 - agent - INFO - file_handler.py:37- [md5计算]D:\AI_project\agent-exercise-master\data\扫地机器人100问.txt文件md5计算成功，结果为ceb20feabec8b3807d94c06ffd8a7dfa
+2026-03-17 11:20:52,461 - agent - INFO - vector_store.py:99- [加载知识库]D:\AI_project\agent-exercise-master\data\扫地机器人100问.txt内容加载成功！
+2026-03-17 11:20:52,498 - agent - INFO - file_handler.py:37- [md5计算]D:\AI_project\agent-exercise-master\data\扫拖地机器人的发展历程.docx文件md5计算成功，结果为f7008cbe32336b78bb71a26266ac9d4a
+2026-03-17 11:20:52,510 - agent - INFO - vector_store.py:78- [加载知识库]D:\AI_project\agent-exercise-master\data\扫拖地机器人的发展历程.docx内容已存在，跳过！
+2026-03-17 11:20:52,511 - agent - INFO - file_handler.py:37- [md5计算]D:\AI_project\agent-exercise-master\data\扫拖机器人主流品牌全介绍.pdf文件md5计算成功，结果为6e49375012dd4228351a9477925a68c8
+2026-03-17 11:20:52,512 - agent - INFO - vector_store.py:78- [加载知识库]D:\AI_project\agent-exercise-master\data\扫拖机器人主流品牌全介绍.pdf内容已存在，跳过！
+2026-03-17 11:20:52,512 - agent - INFO - file_handler.py:37- [md5计算]D:\AI_project\agent-exercise-master\data\拖地机器人100问.txt文件md5计算成功，结果为4ca130614f3196cfa0d9fdce75302a00
+2026-03-17 11:20:55,559 - agent - INFO - vector_store.py:99- [加载知识库]D:\AI_project\agent-exercise-master\data\拖地机器人100问.txt内容加载成功！
+2026-03-17 11:20:55,560 - agent - INFO - file_handler.py:37- [md5计算]D:\AI_project\agent-exercise-master\data\故障排除.txt文件md5计算成功，结果为9cf985693b02a9008afbcc31829a04d4
+2026-03-17 11:20:56,429 - agent - INFO - vector_store.py:99- [加载知识库]D:\AI_project\agent-exercise-master\data\故障排除.txt内容加载成功！
+2026-03-17 11:20:56,437 - agent - INFO - file_handler.py:37- [md5计算]D:\AI_project\agent-exercise-master\data\维修保养.txt文件md5计算成功，结果为0d8da393f8f05601c80afdb7c2e8981a
+2026-03-17 11:20:57,228 - agent - INFO - vector_store.py:99- [加载知识库]D:\AI_project\agent-exercise-master\data\维修保养.txt内容加载成功！
+2026-03-17 11:20:57,236 - agent - INFO - file_handler.py:37- [md5计算]D:\AI_project\agent-exercise-master\data\选购指南.txt文件md5计算成功，结果为711002ebe8a4c6acba3e24dd366514ec
+2026-03-17 11:20:58,065 - agent - INFO - vector_store.py:99- [加载知识库]D:\AI_project\agent-exercise-master\data\选购指南.txt内容加载成功！
+2026-03-17 11:21:27,461 - agent - INFO - file_handler.py:37- [md5计算]D:\AI_project\agent-exercise-master\data\扫地机器人100问.txt文件md5计算成功，结果为ceb20feabec8b3807d94c06ffd8a7dfa
+2026-03-17 11:21:27,470 - agent - INFO - vector_store.py:78- [加载知识库]D:\AI_project\agent-exercise-master\data\扫地机器人100问.txt内容已存在，跳过！
+2026-03-17 11:21:27,471 - agent - INFO - file_handler.py:37- [md5计算]D:\AI_project\agent-exercise-master\data\扫拖地机器人的发展历程.docx文件md5计算成功，结果为f7008cbe32336b78bb71a26266ac9d4a
+2026-03-17 11:21:27,471 - agent - INFO - vector_store.py:78- [加载知识库]D:\AI_project\agent-exercise-master\data\扫拖地机器人的发展历程.docx内容已存在，跳过！
+2026-03-17 11:21:27,473 - agent - INFO - file_handler.py:37- [md5计算]D:\AI_project\agent-exercise-master\data\扫拖机器人主流品牌全介绍.pdf文件md5计算成功，结果为6e49375012dd4228351a9477925a68c8
+2026-03-17 11:21:27,473 - agent - INFO - vector_store.py:78- [加载知识库]D:\AI_project\agent-exercise-master\data\扫拖机器人主流品牌全介绍.pdf内容已存在，跳过！
+2026-03-17 11:21:27,473 - agent - INFO - file_handler.py:37- [md5计算]D:\AI_project\agent-exercise-master\data\拖地机器人100问.txt文件md5计算成功，结果为4ca130614f3196cfa0d9fdce75302a00
+2026-03-17 11:21:27,473 - agent - INFO - vector_store.py:78- [加载知识库]D:\AI_project\agent-exercise-master\data\拖地机器人100问.txt内容已存在，跳过！
+2026-03-17 11:21:27,473 - agent - INFO - file_handler.py:37- [md5计算]D:\AI_project\agent-exercise-master\data\故障排除.txt文件md5计算成功，结果为9cf985693b02a9008afbcc31829a04d4
+2026-03-17 11:21:27,474 - agent - INFO - vector_store.py:78- [加载知识库]D:\AI_project\agent-exercise-master\data\故障排除.txt内容已存在，跳过！
+2026-03-17 11:21:27,474 - agent - INFO - file_handler.py:37- [md5计算]D:\AI_project\agent-exercise-master\data\维修保养.txt文件md5计算成功，结果为0d8da393f8f05601c80afdb7c2e8981a
+2026-03-17 11:21:27,474 - agent - INFO - vector_store.py:78- [加载知识库]D:\AI_project\agent-exercise-master\data\维修保养.txt内容已存在，跳过！
+2026-03-17 11:21:27,474 - agent - INFO - file_handler.py:37- [md5计算]D:\AI_project\agent-exercise-master\data\选购指南.txt文件md5计算成功，结果为711002ebe8a4c6acba3e24dd366514ec
+2026-03-17 11:21:27,475 - agent - INFO - vector_store.py:78- [加载知识库]D:\AI_project\agent-exercise-master\data\选购指南.txt内容已存在，跳过！
+2026-03-17 11:22:09,508 - agent - INFO - middleware.py:46- [模型即将被调用]:带有1条消息
+2026-03-17 11:22:09,509 - agent - DEBUG - middleware.py:48- [模型即将被调用]: HumanMessage | 拖地机器人和扫拖一体有什么区别？
+2026-03-17 11:22:11,760 - agent - INFO - middleware.py:26- [工具调用]: rag_summarize
+2026-03-17 11:22:11,760 - agent - INFO - middleware.py:27- [工具参数]: {'query': '拖地机器人和扫拖一体机器人的区别'}
+2026-03-17 11:22:14,846 - agent - INFO - middleware.py:31- [工具调用]: rag_summarize调用成功
+2026-03-17 11:22:15,537 - agent - INFO - middleware.py:46- [模型即将被调用]:带有3条消息
+2026-03-17 11:22:15,537 - agent - DEBUG - middleware.py:48- [模型即将被调用]: ToolMessage | 拖地机器人专注拖地，机身更薄、贴地性更好、出水更均匀，但一般不能扫垃圾；扫拖一体机器人兼具扫地和拖地功能，适合日常综合清洁使用。
+2026-03-17 14:08:28,540 - agent - INFO - file_handler.py:37- [md5计算]D:\AI_project\agent-exercise-master\data\扫地机器人100问.txt文件md5计算成功，结果为ceb20feabec8b3807d94c06ffd8a7dfa
+2026-03-17 14:08:28,558 - agent - INFO - vector_store.py:78- [加载知识库]D:\AI_project\agent-exercise-master\data\扫地机器人100问.txt内容已存在，跳过！
+2026-03-17 14:08:28,620 - agent - INFO - file_handler.py:37- [md5计算]D:\AI_project\agent-exercise-master\data\扫拖地机器人的发展历程.docx文件md5计算成功，结果为f7008cbe32336b78bb71a26266ac9d4a
+2026-03-17 14:08:28,621 - agent - INFO - vector_store.py:78- [加载知识库]D:\AI_project\agent-exercise-master\data\扫拖地机器人的发展历程.docx内容已存在，跳过！
+2026-03-17 14:08:28,642 - agent - INFO - file_handler.py:37- [md5计算]D:\AI_project\agent-exercise-master\data\扫拖机器人主流品牌全介绍.pdf文件md5计算成功，结果为6e49375012dd4228351a9477925a68c8
+2026-03-17 14:08:28,643 - agent - INFO - vector_store.py:78- [加载知识库]D:\AI_project\agent-exercise-master\data\扫拖机器人主流品牌全介绍.pdf内容已存在，跳过！
+2026-03-17 14:08:28,643 - agent - INFO - file_handler.py:37- [md5计算]D:\AI_project\agent-exercise-master\data\拖地机器人100问.txt文件md5计算成功，结果为4ca130614f3196cfa0d9fdce75302a00
+2026-03-17 14:08:28,644 - agent - INFO - vector_store.py:78- [加载知识库]D:\AI_project\agent-exercise-master\data\拖地机器人100问.txt内容已存在，跳过！
+2026-03-17 14:08:28,659 - agent - INFO - file_handler.py:37- [md5计算]D:\AI_project\agent-exercise-master\data\故障排除.txt文件md5计算成功，结果为9cf985693b02a9008afbcc31829a04d4
+2026-03-17 14:08:28,660 - agent - INFO - vector_store.py:78- [加载知识库]D:\AI_project\agent-exercise-master\data\故障排除.txt内容已存在，跳过！
+2026-03-17 14:08:28,674 - agent - INFO - file_handler.py:37- [md5计算]D:\AI_project\agent-exercise-master\data\维修保养.txt文件md5计算成功，结果为0d8da393f8f05601c80afdb7c2e8981a
+2026-03-17 14:08:28,675 - agent - INFO - vector_store.py:78- [加载知识库]D:\AI_project\agent-exercise-master\data\维修保养.txt内容已存在，跳过！
+2026-03-17 14:08:28,689 - agent - INFO - file_handler.py:37- [md5计算]D:\AI_project\agent-exercise-master\data\选购指南.txt文件md5计算成功，结果为711002ebe8a4c6acba3e24dd366514ec
+2026-03-17 14:08:28,690 - agent - INFO - vector_store.py:78- [加载知识库]D:\AI_project\agent-exercise-master\data\选购指南.txt内容已存在，跳过！
+2026-03-17 14:09:21,219 - agent - INFO - middleware.py:46- [模型即将被调用]:带有1条消息
+2026-03-17 14:09:21,220 - agent - DEBUG - middleware.py:48- [模型即将被调用]: HumanMessage | 木地板可以用吗？
+瓷砖、大理石适合吗？
+2026-03-17 14:09:27,928 - agent - INFO - middleware.py:26- [工具调用]: rag_summarize
+2026-03-17 14:09:27,929 - agent - INFO - middleware.py:27- [工具参数]: {'query': '扫地机器人 木地板 瓷砖 大理石 地面适配'}
+2026-03-17 14:09:32,066 - agent - INFO - middleware.py:31- [工具调用]: rag_summarize调用成功
+2026-03-17 14:09:32,844 - agent - INFO - middleware.py:46- [模型即将被调用]:带有3条消息
+2026-03-17 14:09:32,846 - agent - DEBUG - middleware.py:48- [模型即将被调用]: ToolMessage | 扫地机器人适用于木地板、瓷砖和大理石地面。其中，瓷砖和大理石最适合，去污效果最好；木地板可使用，建议选择可调节水量、支持微湿拖地的机型。
