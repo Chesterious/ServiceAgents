@@ -1,3 +1,6 @@
+from io import BytesIO
+from PyPDF2 import PdfReader
+from docx import Document as Docx
 import time
 import os
 
@@ -135,6 +138,29 @@ elif page == "知识库管理":
             help="支持上传txt、pdf、docx格式的文件"
         )
         
+        def extract_text_from_file(file):
+            """从上传的文件中提取文本内容"""
+            try:
+                if file.type == "application/pdf":
+                    # 处理PDF文件
+                    pdf_reader = PdfReader(BytesIO(file.read()))
+                    content = ""
+                    for page in pdf_reader.pages:
+                        content += page.extract_text() + "\n"
+                    return content
+                elif file.type == "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
+                    # 处理DOCX文件
+                    doc = Docx(BytesIO(file.read()))
+                    content = "\n".join([paragraph.text for paragraph in doc.paragraphs])
+                    return content
+                else:
+                    # 处理TXT文件
+                    return file.read().decode("utf-8")
+            except Exception as e:
+                logger.error(f"解析文件 {file.name} 时出错: {str(e)}", exc_info=True)
+                raise
+
+
         # 批量添加按钮
         if st.button("批量添加", type="primary"):
             # 检查是否上传了文件
@@ -145,7 +171,11 @@ elif page == "知识库管理":
                 for file in uploaded_files:
                     try:
                         # 读取文件内容
-                        content = file.read().decode("utf-8")
+                        content = extract_text_from_file(file)
+                        
+                        # 将文件名拼接到内容开头，以便支持通过文件名搜索
+                        # 格式：文件名: xxx.txt\n内容:\n...
+                        content = f"文件名: {file.name}\n内容:\n{content}"
                         
                         # 创建文件元数据
                         metadata = {
@@ -216,9 +246,42 @@ elif page == "知识库管理":
     with tab3:
         # 子标题
         st.subheader("更新文档")
+
+        # 搜索并选择要更新的文档
+        st.markdown("**第一步：查找文档**")
+        with st.container():
+            search_col1, search_col2 = st.columns([4, 1])
+            with search_col1:
+                search_query = st.text_input("搜索文档以选择", key="update_search_query")
+            with search_col2:
+                search_button = st.button("查找", key="update_search_btn")
+            
+            if search_button and search_query:
+                # 复用搜索逻辑
+                results = st.session_state["db_service"].search_documents(search_query, k=5)
+                if results:
+                    for i, doc in enumerate(results):
+                        # 安全获取文档ID，如果为None则使用索引作为后备
+                        doc_id = doc.metadata.get("id")
+                        # 构建唯一的key，优先使用ID，如果ID不存在则使用索引
+                        btn_key = f"select_update_{doc_id}_{i}" if doc_id else f"select_update_idx_{i}"
+                        
+                        # 显示简略信息
+                        if st.button(f"📄 {doc.metadata.get('source', '未知来源')} (ID: {str(doc_id)[:8] if doc_id else 'N/A'}...)", key=btn_key):
+                            st.session_state["selected_doc_id_for_update"] = doc_id
+                            st.rerun()
+
+                else:
+                    st.info("未找到相关文档")
+        
+        st.divider()
+        st.markdown("**第二步：编辑文档**")
+        
+        # 尝试从会话状态获取预选的ID
+        preselected_id = st.session_state.get("selected_doc_id_for_update", "")
         
         # 文档ID输入
-        doc_id = st.text_input("文档ID", key="update_doc_id")
+        doc_id = st.text_input("文档ID", value=preselected_id, key="update_doc_id")
         
         # 检查是否输入了文档ID
         if doc_id:
@@ -282,9 +345,40 @@ elif page == "知识库管理":
     with tab4:
         # 子标题
         st.subheader("删除文档")
+
+        # 搜索并选择要删除的文档
+        st.markdown("**第一步：查找文档**")
+        with st.container():
+            del_search_col1, del_search_col2 = st.columns([4, 1])
+            with del_search_col1:
+                del_search_query = st.text_input("搜索文档以选择", key="delete_search_query")
+            with del_search_col2:
+                del_search_button = st.button("查找", key="delete_search_btn")
+            
+            if del_search_button and del_search_query:
+                results = st.session_state["db_service"].search_documents(del_search_query, k=5)
+                if results:
+                    for i, doc in enumerate(results):
+                        # 安全获取文档ID
+                        doc_id = doc.metadata.get("id")
+                        # 构建唯一的key，优先使用ID，如果ID不存在则使用索引
+                        btn_key = f"select_delete_{doc_id}_{i}" if doc_id else f"select_delete_idx_{i}"
+                        
+                        if st.button(f"🗑️ {doc.metadata.get('source', '未知来源')} (ID: {str(doc_id)[:8] if doc_id else 'N/A'})", key=btn_key):
+                            st.session_state["selected_doc_id_for_delete"] = doc_id
+                            st.rerun()
+
+                else:
+                    st.info("未找到相关文档")
+        
+        st.divider()
+        st.markdown("**第二步：确认删除**")
+        
+        preselected_del_id = st.session_state.get("selected_doc_id_for_delete", "") # 尝试从会话状态获取预选的ID，如果不存在则使用空字符串
+
         
         # 文档ID输入
-        doc_id = st.text_input("文档ID", key="delete_doc_id")
+        doc_id = st.text_input("文档ID", value=preselected_del_id, key="delete_doc_id")
         
         # 删除文档按钮
         if st.button("删除文档", type="primary"):
