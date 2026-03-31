@@ -44,6 +44,16 @@ class VectorStoreService:
             
             # 添加到向量库
             ids = self.vector_store.add_documents(split_docs)
+
+            # 将 向量库产生的ID添加到每个文档片段的metadata中
+            for doc, doc_id in zip(split_docs, ids):
+                doc.metadata['id'] = doc_id
+            # 使用Chroma底层API更新文档的metadata
+            self.vector_store._collection.update(
+                ids=ids,
+                metadatas=[doc.metadata for doc in split_docs]
+            )
+
             logger.info(f"[向量库]文档添加成功，生成ID: {ids}")
             return ids[0] if ids else ""
         except Exception as e:
@@ -65,6 +75,15 @@ class VectorStoreService:
             
             # 添加到向量库
             ids = self.vector_store.add_documents(split_docs)
+            # 将 向量库产生的ID添加到每个文档片段的metadata中
+            for doc, doc_id in zip(split_docs, ids):
+                doc.metadata['id'] = doc_id
+            # 使用Chroma底层API更新文档的metadata
+            self.vector_store._collection.update(
+                ids=ids,
+                metadatas=[doc.metadata for doc in split_docs]
+            )
+
             logger.info(f"[向量库]批量添加文档成功，共添加 {len(ids)} 个文档片段")
             return ids
         except Exception as e:
@@ -101,25 +120,36 @@ class VectorStoreService:
 
     def update_document(self, doc_id: str, document: Document) -> bool:
         """
-        更新文档
+        更新文档内容，保持原有ID不变
         :param doc_id: 要更新的文档ID
         :param document: 新的文档内容
         :return: 是否更新成功
         """
         try:
-            # 先删除旧文档
-            self.delete_document(doc_id)
+            # 分割文档
+            split_docs = self.spliter.split_documents([document])
+            if not split_docs:
+                logger.warning("[向量库]文档分割后为空，无法更新")
+                return False
             
-            # 添加新文档
-            new_doc_id = self.add_document(document)
+            # 为每个分割后的文档片段保留原始ID
+            # 注意：这里我们假设原始文档只有一个片段，如果有多个片段，需要更复杂的处理
+            # 将原始ID分配给第一个分割后的文档
+            split_docs[0].metadata['id'] = doc_id
             
-            if new_doc_id:
-                logger.info(f"[向量库]文档 {doc_id} 更新成功，新ID: {new_doc_id}")
-                return True
-            return False
+            # 使用Chroma的update方法更新文档
+            self.vector_store._collection.update(
+                ids=[doc_id],
+                documents=[split_docs[0].page_content],
+                metadatas=[split_docs[0].metadata]
+            )
+
+            logger.info(f"[向量库]文档 {doc_id} 更新成功")
+            return True
         except Exception as e:
             logger.error(f"[向量库]更新文档 {doc_id} 失败: {str(e)}", exc_info=True)
             return False
+
         
     def search_documents(self, query: str, k: int = None) -> list[Document]:
         """
@@ -129,9 +159,21 @@ class VectorStoreService:
         :return: 匹配的文档列表
         """
         try:
-            k = k or chroma_conf["k"]
+            k = k or chroma_conf["k"] # 最好到配置文件自己改k值。
             retriever = self.vector_store.as_retriever(search_kwargs={"k": k})
             results = retriever.invoke(query)
+            for doc in results:
+                if 'id' not in doc.metadata:
+                    # 尝试从文档的属性中获取ID
+                    if hasattr(doc, '_id'):
+                        doc.metadata['id'] = doc._id
+                    else:
+                        # 抛出明确的错误，提示数据有问题
+                        #raise ValueError(f"文档 '{doc.page_content[:20]}...' 缺少数据库 _id 字段，无法进行后续操作。")
+                        logger.error(f"文档 '{doc.page_content[:20]}...' 可能缺少数据库 _id 字段！")
+                else:
+                    logger.info(f"[向量库]顺利！！！文档id存在于文档元数据： {doc.metadata['id']} ")
+
             logger.info(f"[向量库]搜索完成，查询: {query}，返回 {len(results)} 条结果")
             return results
         except Exception as e:
@@ -148,17 +190,62 @@ class VectorStoreService:
             # Chroma的get方法可以根据ID获取文档
             results = self.vector_store.get(ids=[doc_id])
             if results and results.get('documents'):
-                return results['documents'][0]
+                # 获取文档内容和元数据
+                page_content = results['documents'][0]
+                metadata = results['metadatas'][0] if results.get('metadatas') else {}
+                
+                # 将ID添加到元数据中
+                if doc_id:
+                    metadata['id'] = doc_id
+                
+                # 创建并返回Document对象
+                return Document(page_content=page_content, metadata=metadata)
             return None
         except Exception as e:
             logger.error(f"[向量库]获取文档 {doc_id} 失败: {str(e)}", exc_info=True)
             return None
 
+    def get_all_documents(self) -> list[Document]:
+        """
+        获取向量数据库中的所有文档
+        :return: 所有文档的列表
+        """
+        try:
+            # 使用Chroma的get方法获取所有文档
+            results = self.vector_store.get()
+            
+            # 检查结果是否存在
+            if not results or not results.get('documents'):
+                logger.warning("[向量库]没有找到任何文档")
+                return []
+            
+            # 将Chroma返回的结果转换为Document对象列表
+            documents = []
+            for i in range(len(results['documents'])):
+                # 获取文档内容
+                page_content = results['documents'][i]
+                # 获取文档元数据
+                metadata = results['metadatas'][i] if results.get('metadatas') and i < len(results['metadatas']) else {}
+                # 获取文档ID
+                doc_id = results['ids'][i] if results.get('ids') and i < len(results['ids']) else ""
+                
+                # 将ID添加到元数据中，以便后续使用
+                if doc_id:
+                    metadata['id'] = doc_id
+                
+                # 创建Document对象
+                doc = Document(page_content=page_content, metadata=metadata)
+                documents.append(doc)
+            
+            logger.info(f"[向量库]获取所有文档成功，共 {len(documents)} 个文档")
+            return documents
+        except Exception as e:
+            logger.error(f"[向量库]获取所有文档失败: {str(e)}", exc_info=True)
+            return []
 
     def get_retriever(self):
         return self.vector_store.as_retriever(search_kwargs={"k": chroma_conf["k"]}) # chroma_conf是之前config_handler准备好的变量
         # 其中k是指返回的向量数量，可以根据需要调整
-
     # 这个load_documents会直接影响文件系统，这已经导致了很高的耦合性，我迟早把这玩意删掉。
     def load_documents(self):
         """
@@ -233,6 +320,25 @@ class VectorStoreService:
                 logger.error(f"[加载知识库]{path}内容加载失败！{str(e)}", exc_info=True)
                 continue
 
+    def delete_all_documents(self) -> bool:
+        """
+        删除向量数据库中的所有文档
+        :return: 是否删除成功
+        """
+        try:
+            # 获取所有文档的ID
+            results = self.vector_store.get()
+            if results and results.get('ids'):
+                # 批量删除所有文档
+                self.vector_store.delete(ids=results['ids'])
+                logger.info(f"[向量库]已删除所有文档，共 {len(results['ids'])} 个")
+                return True
+            else:
+                logger.info("[向量库]知识库中没有文档，无需删除")
+                return True
+        except Exception as e:
+            logger.error(f"[向量库]删除所有文档失败: {str(e)}", exc_info=True)
+            return False
 
 # if __name__ == '__main__':
 #     vs = VectorStoreService()

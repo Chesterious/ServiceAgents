@@ -115,6 +115,7 @@ class DBService:
         """
         try:
             results = self.vector_store.search_documents(query, k)
+            
             logger.info(f"[数据库服务]搜索完成，查询: {query}，返回 {len(results)} 条结果")
             return results
         except Exception as e:
@@ -137,6 +138,34 @@ class DBService:
         except Exception as e:
             logger.error(f"[数据库服务]获取文档失败: {str(e)}", exc_info=True)
             return None
+
+    def get_all_documents(self) -> List[Document]:
+            """
+            获取向量数据库中的所有文档
+            :return: 所有文档的列表
+            """
+            try:
+                # 调用向量存储服务获取所有文档
+                all_docs = self.vector_store.get_all_documents()
+                logger.info(f"[数据库服务]获取所有文档成功，共 {len(all_docs)} 个文档")
+                return all_docs
+            except Exception as e:
+                logger.error(f"[数据库服务]获取所有文档失败: {str(e)}", exc_info=True)
+                return []
+
+    def delete_all_documents(self) -> bool:
+        """
+        删除数据库中的所有文档
+        :return: 是否删除成功
+        """
+        try:
+            result = self.vector_store.delete_all_documents()
+            if result:
+                logger.info("[数据库服务]已删除所有文档")
+            return result
+        except Exception as e:
+            logger.error(f"[数据库服务]删除所有文档失败: {str(e)}", exc_info=True)
+            return False
 
     def load_documents_from_files(self) -> None:
         """

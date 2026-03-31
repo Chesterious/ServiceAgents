@@ -187,6 +187,8 @@ elif page == "知识库管理":
                         doc_id = st.session_state["db_service"].add_document(content, metadata)
                         # 检查添加是否成功
                         if doc_id:
+                            metadata["id"] = doc_id
+                            # st.session_state["db_service"].update_document(doc_id, content, metadata) # 更新文档以保存包含ID的元数据
                             success_count += 1
                             # 记录成功日志
                             logger.info(f"文件 {file.name} 添加成功，ID: {doc_id}")
@@ -266,23 +268,41 @@ elif page == "知识库管理":
                         # 构建唯一的key，优先使用ID，如果ID不存在则使用索引
                         btn_key = f"select_update_{doc_id}_{i}" if doc_id else f"select_update_idx_{i}"
                         
-                        # 显示简略信息
-                        if st.button(f"📄 {doc.metadata.get('source', '未知来源')} (ID: {str(doc_id)[:8] if doc_id else 'N/A'}...)", key=btn_key):
+                        # 定义回调函数，用于处理按钮点击事件
+                        def on_select_update(doc_id):
                             st.session_state["selected_doc_id_for_update"] = doc_id
-                            st.rerun()
+                            st.session_state["update_doc_id"] = doc_id
+
+
+                        # 在循环中创建按钮
+                        if st.button(f"📄 {doc.metadata.get('source', '未知来源')} (ID: {str(doc_id)[:8] if doc_id else 'N/A'}...)", key=btn_key, on_click=on_select_update, args=(doc_id,)):
+                            pass  # 回调函数会处理点击事件，这里不需要额外操作
 
                 else:
                     st.info("未找到相关文档")
         
         st.divider()
         st.markdown("**第二步：编辑文档**")
-        
+
+        # 初始化输入框的会话状态键
+        if "update_doc_id" not in st.session_state:
+            st.session_state["update_doc_id"] = ""
+
         # 尝试从会话状态获取预选的ID
-        preselected_id = st.session_state.get("selected_doc_id_for_update", "")
-        
+        preselected_id = st.session_state.get("temp_update_doc_id", "")
+
         # 文档ID输入
-        doc_id = st.text_input("文档ID", value=preselected_id, key="update_doc_id")
-        
+        doc_id = st.text_input("文档ID", key="update_doc_id", value=preselected_id)
+
+
+        # 当选择的文档ID改变时，更新输入框的值
+        if st.session_state.get("selected_doc_id_for_update"):
+            # 使用临时变量存储选中的文档ID
+            if "temp_update_doc_id" not in st.session_state or st.session_state["temp_update_doc_id"] != st.session_state["selected_doc_id_for_update"]:
+                st.session_state["temp_update_doc_id"] = st.session_state["selected_doc_id_for_update"]
+                st.rerun()
+
+
         # 检查是否输入了文档ID
         if doc_id:
             # 获取现有文档
@@ -305,7 +325,7 @@ elif page == "知识库管理":
                     # 编辑作者
                     metadata["author"] = st.text_input("作者", metadata.get("author", ""), key="update_author")
                     # 编辑分类
-                    metadata["category"] = st.text_input("分类", metadata.get("category", "", key="update_category"))
+                    metadata["category"] = st.text_input("分类", metadata.get("category", ""), key="update_category")
                 
                 # 更新文档按钮
                 if st.button("更新文档", type="primary"):
@@ -361,29 +381,54 @@ elif page == "知识库管理":
                     for i, doc in enumerate(results):
                         # 安全获取文档ID
                         doc_id = doc.metadata.get("id")
+                        print(f"[前端]第{i}份文件的id为：{doc_id}")
                         # 构建唯一的key，优先使用ID，如果ID不存在则使用索引
                         btn_key = f"select_delete_{doc_id}_{i}" if doc_id else f"select_delete_idx_{i}"
                         
-                        if st.button(f"🗑️ {doc.metadata.get('source', '未知来源')} (ID: {str(doc_id)[:8] if doc_id else 'N/A'})", key=btn_key):
+                        # 定义回调函数，用于处理按钮点击事件
+                        def on_select_delete(doc_id):
                             st.session_state["selected_doc_id_for_delete"] = doc_id
-                            st.rerun()
+                            st.session_state["delete_doc_id"] = doc_id
+
+                        # 在循环中创建按钮
+                        if st.button(f"🗑️ {doc.metadata.get('source', '未知来源')} (ID: {str(doc_id) if doc_id else 'N/A'})", key=btn_key, on_click=on_select_delete, args=(doc_id,)):
+                            pass  # 回调函数会处理点击事件，这里不需要额外操作
+
 
                 else:
                     st.info("未找到相关文档")
         
         st.divider()
         st.markdown("**第二步：确认删除**")
+        # # 初始化会话状态键
+        if "selected_doc_id_for_delete" not in st.session_state:
+            st.session_state["selected_doc_id_for_delete"] = ""
         
         preselected_del_id = st.session_state.get("selected_doc_id_for_delete", "") # 尝试从会话状态获取预选的ID，如果不存在则使用空字符串
 
-        
+        # 初始化输入框的会话状态键
+        if "delete_doc_id" not in st.session_state:
+            st.session_state["delete_doc_id"] = ""
+
         # 文档ID输入
-        doc_id = st.text_input("文档ID", value=preselected_del_id, key="delete_doc_id")
-        
+        preselected_del_id = st.session_state.get("temp_delete_doc_id", "")
+        doc_id = st.text_input("文档ID", key="delete_doc_id", value=preselected_del_id)
+
+
+        # 当选择的文档ID改变时，更新输入框的值
+        if st.session_state.get("selected_doc_id_for_delete"):
+            # 使用临时变量存储选中的文档ID
+            if "temp_delete_doc_id" not in st.session_state or st.session_state["temp_delete_doc_id"] != st.session_state["selected_doc_id_for_delete"]:
+                st.session_state["temp_delete_doc_id"] = st.session_state["selected_doc_id_for_delete"]
+                st.rerun()
+
+ 
+
+
         # 删除文档按钮
         if st.button("删除文档", type="primary"):
             # 检查是否输入了文档ID
-            if doc_id:
+            if doc_id: 
                 # 调用数据库服务删除文档
                 if st.session_state["db_service"].delete_document(doc_id):
                     # 显示成功消息
@@ -425,3 +470,62 @@ elif page == "知识库管理":
             else:
                 # 提示输入文档ID列表
                 st.warning("请输入文档ID列表")
+
+        # 查看所有文档，以获取其id，供删除
+        # 分隔线
+        st.divider()
+        
+        # 查看所有文档子标题
+        st.subheader("查看所有文档ID，以供删除使用")
+        
+        # 按钮触发查看所有文档
+        if st.button("列出所有文档"):
+            # 获取集合中的所有文档
+            all_docs = st.session_state["db_service"].get_all_documents()
+            
+            if all_docs:
+                st.info(f"共找到 {len(all_docs)} 个文档")
+                
+                # 使用表格展示文档信息
+                for doc in all_docs:
+                    # 获取文档ID
+                    doc_id = doc.metadata.get("id", "未知")
+                    # 获取文档来源
+                    source = doc.metadata.get("source", "未知来源")
+                    # 获取文档内容预览（前50个字符）
+                    content_preview = doc.page_content[:50] + "..." if len(doc.page_content) > 50 else doc.page_content
+                    
+                    # 使用expander展示每个文档的详细信息
+                    with st.expander(f"ID: {doc_id} | 来源: {source}"):
+                        st.text("内容预览:")
+                        st.text(content_preview)
+                        st.text("完整ID:")
+                        st.code(doc_id)
+                        st.text("元数据:")
+                        st.json(doc.metadata)
+            else:
+                st.warning("知识库中没有文档")
+
+        # 清空知识库子标题
+        st.subheader("清空知识库")
+
+        # 添加警告信息
+        st.warning("⚠️ 此操作将永久删除知识库中的所有文档，不可恢复！")
+
+        # 添加确认复选框
+        confirm = st.checkbox("我确认要清空知识库中的所有文档")
+
+        # 清空知识库按钮
+        if st.button("清空知识库", type="primary", disabled=not confirm):
+            # 调用数据库服务删除所有文档
+            if st.session_state["db_service"].delete_all_documents():
+                # 显示成功消息
+                st.success("知识库已成功清空！")
+                # 清空会话状态中存储的文档ID
+                if "selected_doc_id_for_delete" in st.session_state:
+                    st.session_state["selected_doc_id_for_delete"] = ""
+                if "delete_doc_id" in st.session_state:
+                    st.session_state["delete_doc_id"] = ""
+            else:
+                # 显示失败消息
+                st.error("清空知识库失败！")
