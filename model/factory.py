@@ -24,8 +24,27 @@ class ChatModelFactory(BaseModelFactory):  # 这里继承了BaseModelFactory，�
 
 
 class EmbeddingsFactory(BaseModelFactory):  # 同样，继承了BaseModelFactory
-    def generator(self) -> Optional[Embeddings | BaseChatModel]:
-        return DashScopeEmbeddings(model=rag_conf["embedding_model_name"])
+    def generator(self) -> Embeddings:
+        try:
+            print(f"🔍 加载阿里云嵌入模型: {rag_conf['embedding_model_name']}")
+            # 1. 初始化 DashScope 嵌入模型
+            embeddings = DashScopeEmbeddings(
+                model=rag_conf["embedding_model_name"]
+            )
+
+            # 2. 【关键】启动时立刻测试，失败直接炸，绝不继续
+            test_vector = embeddings.embed_query("test connection")
+            if len(test_vector) != 1024:
+                raise ValueError(f"模型维度错误！期望1024维，实际{len(test_vector)}维")
+            
+            print(f"✅ 嵌入模型正常: {rag_conf['embedding_model_name']} :{len(test_vector)}维")
+            return embeddings
+
+        except Exception as e:
+            # 3. 阿里云挂了 → 直接抛错终止程序，绝不允许用默认模型
+            raise RuntimeError(
+                f"❌ 阿里云嵌入模型加载失败！程序终止。错误: {str(e)}"
+            ) from e
 
 
 chat_model = ChatModelFactory().generator()

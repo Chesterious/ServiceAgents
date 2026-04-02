@@ -1,5 +1,4 @@
 import os
-
 from langchain_chroma import Chroma
 from langchain_core.documents import Document
 from langchain_text_splitters import RecursiveCharacterTextSplitter
@@ -13,9 +12,12 @@ from utils.path_tool import get_abs_path # 这也是我们之前封装好的工�
 
 class VectorStoreService:
     def __init__(self):
+        # 添加日志确认使用的嵌入模型类型，方便调试
+        logger.info(f"[向量库]正在初始化，使用的嵌入模型类型: {type(embed_model)}")
+
         self.vector_store = Chroma(
             collection_name=chroma_conf["collection_name"],
-            embedding_function=embed_model,
+            embedding_function=embed_model,# 确保这里传入的是显式创建的实例,否则触发fallback
             persist_directory=chroma_conf["persist_directory"]
         )
 
@@ -43,16 +45,17 @@ class VectorStoreService:
                 return ""
             
             # 添加到向量库
+            # 这里的add_documents是Langchain封装好的Chroma底层API，返回的是文档ID列表
             ids = self.vector_store.add_documents(split_docs)
 
             # 将 向量库产生的ID添加到每个文档片段的metadata中
             for doc, doc_id in zip(split_docs, ids):
                 doc.metadata['id'] = doc_id
-            # 使用Chroma底层API更新文档的metadata
-            self.vector_store._collection.update(
-                ids=ids,
-                metadatas=[doc.metadata for doc in split_docs]
-            )
+                # 使用Chroma底层API更新文档的metadata
+                self.vector_store.update_document(
+                    document_id = doc_id,
+                    document = doc
+                )
 
             logger.info(f"[向量库]文档添加成功，生成ID: {ids}")
             return ids[0] if ids else ""
@@ -78,11 +81,11 @@ class VectorStoreService:
             # 将 向量库产生的ID添加到每个文档片段的metadata中
             for doc, doc_id in zip(split_docs, ids):
                 doc.metadata['id'] = doc_id
-            # 使用Chroma底层API更新文档的metadata
-            self.vector_store._collection.update(
-                ids=ids,
-                metadatas=[doc.metadata for doc in split_docs]
-            )
+                # 使用Chroma底层API更新文档的metadata
+                self.vector_store.update_document(
+                    document_id = doc_id,
+                    document = doc
+                )
 
             logger.info(f"[向量库]批量添加文档成功，共添加 {len(ids)} 个文档片段")
             return ids
@@ -138,10 +141,11 @@ class VectorStoreService:
             split_docs[0].metadata['id'] = doc_id
             
             # 使用Chroma的update方法更新文档
-            self.vector_store._collection.update(
-                ids=[doc_id],
-                documents=[split_docs[0].page_content],
-                metadatas=[split_docs[0].metadata]
+            # 千万别用_collection.update()方法
+            # 一旦用了 _collection.update() → Chroma 底层 → 无嵌入 → 自动下载 MiniLM
+            self.vector_store.update_document(
+                document_id = doc_id,
+                document=split_docs[0],
             )
 
             logger.info(f"[向量库]文档 {doc_id} 更新成功")
