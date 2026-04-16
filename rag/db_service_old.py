@@ -1,8 +1,8 @@
-from rag.vector_store import VectorStoreService
+from rag.vector_store_old import VectorStoreService
 
 from typing import Optional, List
 from langchain_core.documents import Document
-from rag.vector_store import VectorStoreService
+from rag.vector_store_old import VectorStoreService
 from utils.logger_handler import logger
 
 

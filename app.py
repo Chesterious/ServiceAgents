@@ -7,14 +7,14 @@ import os
 import streamlit as st
 
 from agent.react_agent import ReactAgent
-from rag.db_service import DBService
+from rag.kdb_service import KDBService
 from langchain_core.documents import Document
 from utils.logger_handler import logger
 from utils.file_handler import get_file_md5_hex
 
 # 初始化数据库服务，确保在会话状态中只创建一次
 if "db_service" not in st.session_state:
-    st.session_state["db_service"] = DBService()
+    st.session_state["db_service"] = KDBService()
 
 # 页面配置，设置标题、图标和布局
 st.set_page_config(
@@ -39,7 +39,7 @@ if page == "对话":
     if "agent" not in st.session_state:
         st.session_state["agent"] = ReactAgent()
 
-    # 初始化消息列表，用于存储对话历史
+    # 初始化消息列表，用于存储对话历史，注意这里仅仅是短期对话历史。
     if "message" not in st.session_state:
         st.session_state["message"] = []
 
@@ -86,8 +86,11 @@ elif page == "知识库管理":
     st.title("知识库管理")
     st.divider()
     
-    # 创建四个选项卡，分别对应不同的知识库操作
-    tab1, tab2, tab3, tab4 = st.tabs(["添加文档", "搜索文档", "更新文档", "删除文档"])
+    # 创建两个选项卡，分别对应不同的知识库操作
+    #tab1, tab2 = st.tabs(["添加文档", "已有文档操作"])
+
+    # 修改后
+    tab1, tab2, tab3 = st.tabs(["添加文档", "已有文档操作", "调试专用"])
     
     # 添加文档功能
     with tab1:
@@ -101,6 +104,8 @@ elif page == "知识库管理":
         with st.expander("高级选项（元数据）"):
             # 创建元数据字典
             metadata = {}
+            # 输入文档标题
+            metadata["title"] = st.text_input("标题", key="add_title")
             # 输入文档来源
             metadata["source"] = st.text_input("来源", key="add_source")
             # 输入文档作者
@@ -112,15 +117,27 @@ elif page == "知识库管理":
         if st.button("添加文档", type="primary"):
             # 检查是否输入了文档内容
             if content:
+                # 生成文档ID
+                import uuid
+                main_id = str(uuid.uuid4())
+                metadata["main_id"] = main_id
+                
+                # 记录日志
+                logger.info(f"[前端]准备添加文档，main_id: {main_id}")
+                
                 # 调用数据库服务添加文档
-                doc_id = st.session_state["db_service"].add_document(content, metadata)
+                doc = Document(page_content=content, metadata=metadata)
+                doc_ids = st.session_state["db_service"].add_documents([doc])
+                
                 # 检查添加是否成功
-                if doc_id:
+                if doc_ids:
                     # 显示成功消息
-                    st.success(f"文档添加成功！文档ID: {doc_id}")
+                    st.success(f"文档添加成功！文档ID: {main_id}")
+                    logger.info(f"[前端]文档添加成功，main_id: {main_id}, 生成碎片数: {len(doc_ids)}")
                 else:
                     # 显示失败消息
                     st.error("文档添加失败！")
+                    logger.error(f"[前端]文档添加失败，main_id: {main_id}")
             else:
                 # 提示用户输入内容
                 st.warning("请输入文档内容")
@@ -157,7 +174,7 @@ elif page == "知识库管理":
                     # 处理TXT文件
                     return file.read().decode("utf-8")
             except Exception as e:
-                logger.error(f"解析文件 {file.name} 时出错: {str(e)}", exc_info=True)
+                logger.error(f"[前端]解析文件 {file.name} 时出错: {str(e)}", exc_info=True)
                 raise
 
 
@@ -177,41 +194,51 @@ elif page == "知识库管理":
                         # 格式：文件名: xxx.txt\n内容:\n...
                         content = f"文件名: {file.name}\n内容:\n{content}"
                         
+                        # 生成文档ID
+                        import uuid
+                        main_id = str(uuid.uuid4())
+                        
                         # 创建文件元数据
                         metadata = {
+                            "title": file.name,
                             "source": file.name,
-                            "file_type": file.type
+                            "file_type": file.type,
+                            "main_id": main_id
                         }
                         
+                        # 记录日志
+                        logger.info(f"[前端]准备批量添加文件，文件名: {file.name}, main_id: {main_id}")
+                        
                         # 调用数据库服务添加文档
-                        doc_id = st.session_state["db_service"].add_document(content, metadata)
+                        doc = Document(page_content=content, metadata=metadata)
+                        doc_ids = st.session_state["db_service"].add_documents([doc])
+                        
                         # 检查添加是否成功
-                        if doc_id:
-                            metadata["id"] = doc_id
-                            # st.session_state["db_service"].update_document(doc_id, content, metadata) # 更新文档以保存包含ID的元数据
+                        if doc_ids:
                             success_count += 1
                             # 记录成功日志
-                            logger.info(f"文件 {file.name} 添加成功，ID: {doc_id}")
+                            logger.info(f"[前端]文件 {file.name} 添加成功，main_id: {main_id}, 生成碎片数: {len(doc_ids)}")
                         else:
                             # 记录失败日志
-                            logger.error(f"文件 {file.name} 添加失败")
+                            logger.error(f"[前端]文件 {file.name} 添加失败，main_id: {main_id}")
                     except Exception as e:
                         # 记录异常日志
-                        logger.error(f"处理文件 {file.name} 时出错: {str(e)}", exc_info=True)
+                        logger.error(f"[前端]处理文件 {file.name} 时出错: {str(e)}", exc_info=True)
                 
                 # 显示批量添加结果
                 st.success(f"已添加 {success_count}/{len(uploaded_files)} 个文件")
+                logger.info(f"[前端]批量添加完成，成功: {success_count}/{len(uploaded_files)}")
             else:
                 # 提示用户上传文件
                 st.warning("请先上传文件")
     
-    # 搜索文档功能
+    # 已有文档操作功能
     with tab2:
         # 子标题
         st.subheader("搜索文档")
         
         # 搜索关键词输入
-        query = st.text_input("搜索关键词", key="search_query")
+        query = st.text_input("搜索关键词（文档内容或标题）", key="search_query")
         # 返回结果数量滑块
         k = st.slider("返回结果数量", min_value=1, max_value=10, value=3)
         
@@ -219,6 +246,9 @@ elif page == "知识库管理":
         if st.button("搜索", type="primary"):
             # 检查是否输入了搜索关键词
             if query:
+                # 记录搜索日志
+                logger.info(f"[前端]开始搜索文档，关键词: {query}")
+                
                 # 调用数据库服务搜索文档
                 results = st.session_state["db_service"].search_documents(query, k)
                 
@@ -226,306 +256,162 @@ elif page == "知识库管理":
                 if results:
                     # 显示找到的文档数量
                     st.success(f"找到 {len(results)} 条相关文档")
+                    logger.info(f"[前端]搜索完成，找到 {len(results)} 条相关文档")
                     
                     # 遍历搜索结果
                     for i, doc in enumerate(results, 1):
-                        # 使用可折叠区域显示每个文档
-                        with st.expander(f"文档 {i} - {doc.metadata.get('source', '未知来源')}"):
-                            # 显示文档内容
-                            st.text_area("内容", doc.page_content, height=150, key=f"search_{i}")
+                        # 获取文档ID
+                        main_id = doc.metadata.get('main_id', '')
+                        # 创建列布局
+                        col1, col2, col3 = st.columns([3, 1, 1])
+                        
+                        # 第一列显示文档信息
+                        with col1:
+                            # 使用可折叠区域显示每个文档
+                            with st.expander(f"文档 {i} - {doc.metadata.get('title', '未知标题')}"):
+                                # 显示文档内容
+                                st.text_area("内容", doc.page_content, height=150, key=f"search_{i}")
+                                
+                                # 显示文档元数据
+                                if doc.metadata:
+                                    st.json(doc.metadata)
+                        
+                        # 第二列显示查看按钮
+                        with col2:
+                            if st.button("查看", key=f"view_{i}"):
+                                # 记录查看日志
+                                logger.info(f"[前端]用户请求查看文档，main_id: {main_id}")
+                                
+                                # 获取完整文档
+                                full_doc = st.session_state["db_service"].get_document_by_main_id(main_id)
+                                
+                                if full_doc:
+                                    # 显示完整文档
+                                    st.info(f"完整文档 (main_id: {main_id})")
+                                    st.text_area("完整内容", full_doc.page_content, height=300, key=f"full_{i}")
+                                    st.json(full_doc.metadata)
+                                    logger.info(f"[前端]成功获取完整文档，main_id: {main_id}")
+                                else:
+                                    st.error("获取完整文档失败")
+                                    logger.error(f"[前端]获取完整文档失败，main_id: {main_id}")
+                        
+                        # 第三列显示删除和更新按钮
+                        with col3:
+                            # 删除按钮
+                            if st.button("删除", key=f"delete_{i}"):
+                                # 记录删除日志
+                                logger.info(f"[前端]用户请求删除文档，main_id: {main_id}")
+                                
+                                # 获取所有属于该main_id的文档碎片
+                                all_docs = st.session_state["db_service"].get_all_documents()
+                                slice_ids = [d.metadata.get('slice_id') for d in all_docs if d.metadata.get('main_id') == main_id]
+                                
+                                # 删除所有碎片
+                                if slice_ids and st.session_state["db_service"].delete_documents(slice_ids):
+                                    st.success(f"文档 {main_id} 及其所有碎片已删除")
+                                    logger.info(f"[前端]成功删除文档及其碎片，main_id: {main_id}, 删除碎片数: {len(slice_ids)}")
+                                    st.rerun()
+                                else:
+                                    st.error(f"删除文档 {main_id} 失败")
+                                    logger.error(f"[前端]删除文档失败，main_id: {main_id}")
                             
-                            # 显示文档元数据
-                            if doc.metadata:
-                                st.json(doc.metadata)
+                            # 更新按钮
+                            if st.button("更新", key=f"update_{i}"):
+                                # 记录更新日志
+                                logger.info(f"[前端]用户请求更新文档，main_id: {main_id}")
+                                
+                                # 获取完整文档
+                                full_doc = st.session_state["db_service"].get_document_by_main_id(main_id)
+                                
+                                if full_doc:
+                                    # 显示更新表单
+                                    st.info(f"更新文档 (main_id: {main_id})")
+                                    
+                                    # 编辑文档内容
+                                    updated_content = st.text_area("文档内容", full_doc.page_content, height=200, key=f"update_content_{i}")
+                                    
+                                    # 编辑元数据
+                                    with st.expander("元数据"):
+                                        updated_metadata = full_doc.metadata.copy()
+                                        updated_metadata["title"] = st.text_input("标题", updated_metadata.get("title", ""), key=f"update_title_{i}")
+                                        updated_metadata["source"] = st.text_input("来源", updated_metadata.get("source", ""), key=f"update_source_{i}")
+                                        updated_metadata["author"] = st.text_input("作者", updated_metadata.get("author", ""), key=f"update_author_{i}")
+                                        updated_metadata["category"] = st.text_input("分类", updated_metadata.get("category", ""), key=f"update_category_{i}")
+                                    
+                                    # 确认更新按钮
+                                    if st.button("确认更新", key=f"confirm_update_{i}"):
+                                        # 记录更新确认日志
+                                        logger.info(f"[前端]用户确认更新文档，main_id: {main_id}")
+                                        
+                                        # 获取所有属于该main_id的文档碎片
+                                        all_docs = st.session_state["db_service"].get_all_documents()
+                                        slice_ids = [d.metadata.get('slice_id') for d in all_docs if d.metadata.get('main_id') == main_id]
+                                        
+                                        # 先删除旧文档的所有碎片
+                                        if slice_ids and st.session_state["db_service"].delete_documents(slice_ids):
+                                            logger.info(f"[前端]已删除旧文档碎片，main_id: {main_id}, 删除碎片数: {len(slice_ids)}")
+                                            
+                                            # 添加更新后的文档
+                                            updated_doc = Document(page_content=updated_content, metadata=updated_metadata)
+                                            new_doc_ids = st.session_state["db_service"].add_documents([updated_doc])
+                                            
+                                            if new_doc_ids:
+                                                st.success(f"文档 {main_id} 更新成功")
+                                                logger.info(f"[前端]文档更新成功，main_id: {main_id}, 新生成碎片数: {len(new_doc_ids)}")
+                                                st.rerun()
+                                            else:
+                                                st.error(f"添加更新后的文档失败")
+                                                logger.error(f"[前端]添加更新后的文档失败，main_id: {main_id}")
+                                        else:
+                                            st.error(f"删除旧文档碎片失败")
+                                            logger.error(f"[前端]删除旧文档碎片失败，main_id: {main_id}")
+                                else:
+                                    st.error("获取完整文档失败")
+                                    logger.error(f"[前端]获取完整文档失败，main_id: {main_id}")
                 else:
                     # 提示未找到相关文档
                     st.warning("未找到相关文档")
+                    logger.info(f"[前端]搜索完成，未找到相关文档，关键词: {query}")
             else:
                 # 提示输入搜索关键词
                 st.warning("请输入搜索关键词")
-    
-    # 更新文档功能
+
+    # 在已有文档操作功能结束后添加新的tab3内容
     with tab3:
-        # 子标题
-        st.subheader("更新文档")
-
-        # 搜索并选择要更新的文档
-        st.markdown("**第一步：查找文档**")
-        with st.container():
-            search_col1, search_col2 = st.columns([4, 1])
-            with search_col1:
-                search_query = st.text_input("搜索文档以选择", key="update_search_query")
-            with search_col2:
-                search_button = st.button("查找", key="update_search_btn")
-            
-            if search_button and search_query:
-                # 复用搜索逻辑
-                results = st.session_state["db_service"].search_documents(search_query, k=5)
-                if results:
-                    for i, doc in enumerate(results):
-                        # 安全获取文档ID，如果为None则使用索引作为后备
-                        doc_id = doc.metadata.get("id")
-                        # 构建唯一的key，优先使用ID，如果ID不存在则使用索引
-                        btn_key = f"select_update_{doc_id}_{i}" if doc_id else f"select_update_idx_{i}"
-                        
-                        # 定义回调函数，用于处理按钮点击事件
-                        def on_select_update(doc_id):
-                            st.session_state["selected_doc_id_for_update"] = doc_id
-                            st.session_state["update_doc_id"] = doc_id
-
-
-                        # 在循环中创建按钮
-                        if st.button(f"📄 {doc.metadata.get('source', '未知来源')} (ID: {str(doc_id)[:8] if doc_id else 'N/A'}...)", key=btn_key, on_click=on_select_update, args=(doc_id,)):
-                            pass  # 回调函数会处理点击事件，这里不需要额外操作
-
-                else:
-                    st.info("未找到相关文档")
+        st.subheader("调试专用")
+        st.warning("⚠️ 以下操作仅用于调试，请谨慎使用！")
         
-        st.divider()
-        st.markdown("**第二步：编辑文档**")
-
-        # 初始化输入框的会话状态键
-        if "update_doc_id" not in st.session_state:
-            st.session_state["update_doc_id"] = ""
-
-        # 尝试从会话状态获取预选的ID
-        preselected_id = st.session_state.get("temp_update_doc_id", "")
-
-        # 文档ID输入
-        doc_id = st.text_input("文档ID", key="update_doc_id", value=preselected_id)
-
-
-        # 当选择的文档ID改变时，更新输入框的值
-        if st.session_state.get("selected_doc_id_for_update"):
-            # 使用临时变量存储选中的文档ID
-            if "temp_update_doc_id" not in st.session_state or st.session_state["temp_update_doc_id"] != st.session_state["selected_doc_id_for_update"]:
-                st.session_state["temp_update_doc_id"] = st.session_state["selected_doc_id_for_update"]
-                st.rerun()
-
-
-        # 检查是否输入了文档ID
-        if doc_id:
-            # 获取现有文档
-            existing_doc = st.session_state["db_service"].get_document_by_id(doc_id)
-            
-            # 检查是否找到文档
-            if existing_doc:
-                # 提示用户编辑文档
-                st.info("找到文档，请编辑内容")
-                
-                # 显示现有文档内容，允许编辑
-                content = st.text_area("文档内容", existing_doc.page_content, height=200)
-                
-                # 元数据编辑区域
-                with st.expander("元数据"):
-                    # 复制现有元数据
-                    metadata = existing_doc.metadata.copy()
-                    # 编辑来源
-                    metadata["source"] = st.text_input("来源", metadata.get("source", ""), key="update_source")
-                    # 编辑作者
-                    metadata["author"] = st.text_input("作者", metadata.get("author", ""), key="update_author")
-                    # 编辑分类
-                    metadata["category"] = st.text_input("分类", metadata.get("category", ""), key="update_category")
-                
-                # 更新文档按钮
-                if st.button("更新文档", type="primary"):
-                    # 检查是否输入了文档内容
-                    if content:
-                        # 调用数据库服务更新文档
-                        if st.session_state["db_service"].update_document(doc_id, content, metadata):
-                            # 显示成功消息
-                            st.success("文档更新成功！")
-                        else:
-                            # 显示失败消息
-                            st.error("文档更新失败！")
+        col1, col2 = st.columns(2)
+        
+        with col1:
+            if st.button("列出全部文档", type="secondary"):
+                try:
+                    all_docs = st.session_state["db_service"].get_all_documents()
+                    if all_docs:
+                        st.success(f"知识库中共有 {len(all_docs)} 个文档碎片")
+                        for i, doc in enumerate(all_docs, 1):
+                            with st.expander(f"文档碎片 {i} - slice_id: {doc.metadata.get('slice_id', 'N/A')}"):
+                                st.text_area("内容", doc.page_content, height=100, key=f"debug_content_{i}")
+                                st.json(doc.metadata)
                     else:
-                        # 提示文档内容不能为空
-                        st.warning("文档内容不能为空")
-            else:
-                # 提示未找到文档
-                st.warning("未找到指定ID的文档")
+                        st.info("知识库中没有文档")
+                    logger.info(f"[前端]调试：列出全部文档，共 {len(all_docs)} 个")
+                except Exception as e:
+                    st.error(f"列出文档失败: {str(e)}")
+                    logger.error(f"[前端]调试：列出文档失败: {str(e)}", exc_info=True)
         
-        # 查找文档按钮
-        if st.button("查找文档"):
-            # 检查是否输入了文档ID
-            if doc_id:
-                # 调用数据库服务查找文档
-                existing_doc = st.session_state["db_service"].get_document_by_id(doc_id)
-                # 检查是否找到文档
-                if existing_doc:
-                    # 显示成功消息
-                    st.success("找到文档！")
-                    # 重新运行页面以更新显示
-                    st.rerun()
-                else:
-                    # 提示未找到文档
-                    st.warning("未找到指定ID的文档")
-    
-    # 删除文档功能
-    with tab4:
-        # 子标题
-        st.subheader("删除文档")
-
-        # 搜索并选择要删除的文档
-        st.markdown("**第一步：查找文档**")
-        with st.container():
-            del_search_col1, del_search_col2 = st.columns([4, 1])
-            with del_search_col1:
-                del_search_query = st.text_input("搜索文档以选择", key="delete_search_query")
-            with del_search_col2:
-                del_search_button = st.button("查找", key="delete_search_btn")
-            
-            if del_search_button and del_search_query:
-                results = st.session_state["db_service"].search_documents(del_search_query, k=5)
-                if results:
-                    for i, doc in enumerate(results):
-                        # 安全获取文档ID
-                        doc_id = doc.metadata.get("id")
-                        print(f"[前端]第{i}份文件的id为：{doc_id}")
-                        # 构建唯一的key，优先使用ID，如果ID不存在则使用索引
-                        btn_key = f"select_delete_{doc_id}_{i}" if doc_id else f"select_delete_idx_{i}"
-                        
-                        # 定义回调函数，用于处理按钮点击事件
-                        def on_select_delete(doc_id):
-                            st.session_state["selected_doc_id_for_delete"] = doc_id
-                            st.session_state["delete_doc_id"] = doc_id
-
-                        # 在循环中创建按钮
-                        if st.button(f"🗑️ {doc.metadata.get('source', '未知来源')} (ID: {str(doc_id) if doc_id else 'N/A'})", key=btn_key, on_click=on_select_delete, args=(doc_id,)):
-                            pass  # 回调函数会处理点击事件，这里不需要额外操作
-
-
-                else:
-                    st.info("未找到相关文档")
-        
-        st.divider()
-        st.markdown("**第二步：确认删除**")
-        # # 初始化会话状态键
-        if "selected_doc_id_for_delete" not in st.session_state:
-            st.session_state["selected_doc_id_for_delete"] = ""
-        
-        preselected_del_id = st.session_state.get("selected_doc_id_for_delete", "") # 尝试从会话状态获取预选的ID，如果不存在则使用空字符串
-
-        # 初始化输入框的会话状态键
-        if "delete_doc_id" not in st.session_state:
-            st.session_state["delete_doc_id"] = ""
-
-        # 文档ID输入
-        preselected_del_id = st.session_state.get("temp_delete_doc_id", "")
-        doc_id = st.text_input("文档ID", key="delete_doc_id", value=preselected_del_id)
-
-
-        # 当选择的文档ID改变时，更新输入框的值
-        if st.session_state.get("selected_doc_id_for_delete"):
-            # 使用临时变量存储选中的文档ID
-            if "temp_delete_doc_id" not in st.session_state or st.session_state["temp_delete_doc_id"] != st.session_state["selected_doc_id_for_delete"]:
-                st.session_state["temp_delete_doc_id"] = st.session_state["selected_doc_id_for_delete"]
-                st.rerun()
-
- 
-
-
-        # 删除文档按钮
-        if st.button("删除文档", type="primary"):
-            # 检查是否输入了文档ID
-            if doc_id: 
-                # 调用数据库服务删除文档
-                if st.session_state["db_service"].delete_document(doc_id):
-                    # 显示成功消息
-                    st.success("文档删除成功！")
-                else:
-                    # 显示失败消息
-                    st.error("文档删除失败！")
-            else:
-                # 提示输入文档ID
-                st.warning("请输入文档ID")
-        
-        # 分隔线
-        st.divider()
-        
-        # 批量删除文档子标题
-        st.subheader("批量删除文档")
-        
-        # 文档ID列表输入区域
-        doc_ids = st.text_area("文档ID列表（每行一个ID）", height=150, key="batch_delete_doc_ids")
-        
-        # 批量删除按钮
-        if st.button("批量删除", type="primary"):
-            # 检查是否输入了文档ID
-            if doc_ids:
-                # 将输入的文本分割为ID列表
-                ids_list = [line.strip() for line in doc_ids.split("\n") if line.strip()]
-                # 检查ID列表是否为空
-                if ids_list:
-                    # 调用数据库服务批量删除文档
-                    if st.session_state["db_service"].delete_documents(ids_list):
-                        # 显示成功消息
-                        st.success(f"成功删除 {len(ids_list)} 个文档！")
+        with col2:
+            if st.button("删除全部文档", type="primary"):
+                try:
+                    if st.session_state["db_service"].delete_all_documents():
+                        st.success("已删除知识库中的所有文档")
+                        logger.info("[前端]调试：已删除全部文档")
+                        st.rerun()
                     else:
-                        # 显示失败消息
-                        st.error("批量删除失败！")
-                else:
-                    # 提示输入有效的文档ID
-                    st.warning("请输入有效的文档ID")
-            else:
-                # 提示输入文档ID列表
-                st.warning("请输入文档ID列表")
+                        st.error("删除文档失败")
+                        logger.error("[前端]调试：删除全部文档失败")
+                except Exception as e:
+                    st.error(f"删除文档失败: {str(e)}")
+                    logger.error(f"[前端]调试：删除文档失败: {str(e)}", exc_info=True)
 
-        # 查看所有文档，以获取其id，供删除
-        # 分隔线
-        st.divider()
-        
-        # 查看所有文档子标题
-        st.subheader("查看所有文档ID，以供删除使用")
-        
-        # 按钮触发查看所有文档
-        if st.button("列出所有文档"):
-            # 获取集合中的所有文档
-            all_docs = st.session_state["db_service"].get_all_documents()
-            
-            if all_docs:
-                st.info(f"共找到 {len(all_docs)} 个文档")
-                
-                # 使用表格展示文档信息
-                for doc in all_docs:
-                    # 获取文档ID
-                    doc_id = doc.metadata.get("id", "未知")
-                    # 获取文档来源
-                    source = doc.metadata.get("source", "未知来源")
-                    # 获取文档内容预览（前50个字符）
-                    content_preview = doc.page_content[:50] + "..." if len(doc.page_content) > 50 else doc.page_content
-                    
-                    # 使用expander展示每个文档的详细信息
-                    with st.expander(f"ID: {doc_id} | 来源: {source}"):
-                        st.text("内容预览:")
-                        st.text(content_preview)
-                        st.text("完整ID:")
-                        st.code(doc_id)
-                        st.text("元数据:")
-                        st.json(doc.metadata)
-            else:
-                st.warning("知识库中没有文档")
 
-        # 清空知识库子标题
-        st.subheader("清空知识库")
-
-        # 添加警告信息
-        st.warning("⚠️ 此操作将永久删除知识库中的所有文档，不可恢复！")
-
-        # 添加确认复选框
-        confirm = st.checkbox("我确认要清空知识库中的所有文档")
-
-        # 清空知识库按钮
-        if st.button("清空知识库", type="primary", disabled=not confirm):
-            # 调用数据库服务删除所有文档
-            if st.session_state["db_service"].delete_all_documents():
-                # 显示成功消息
-                st.success("知识库已成功清空！")
-                # 清空会话状态中存储的文档ID
-                if "selected_doc_id_for_delete" in st.session_state:
-                    st.session_state["selected_doc_id_for_delete"] = ""
-                if "delete_doc_id" in st.session_state:
-                    st.session_state["delete_doc_id"] = ""
-            else:
-                # 显示失败消息
-                st.error("清空知识库失败！")
