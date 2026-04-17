@@ -127,7 +127,7 @@ class VectorStoreService:
             logger.error(f"【向量存储层】-更新文档 {doc_id} 失败: {str(e)}", exc_info=True)
             return False
         
-    def search_documents(self, query: str, k: int = None) -> list[Document]:
+    def search_documents(self, query: str, k: int = 5) -> list[Document]:
         """
         搜索文档
         :param query: 搜索查询文本

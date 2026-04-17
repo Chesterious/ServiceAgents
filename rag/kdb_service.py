@@ -119,26 +119,86 @@ class KDBService:
             logger.error(f"【知识库】-更新文档失败: {str(e)}", exc_info=True)
             return False
 
-    def search_documents(self, query: str, k: int = None) -> List[Document]:
+    def search_documents(self, query: str, k: int = 5) -> List[Document]:
         """
-        搜索文档（仅返回知识文档）
-        :param query: 搜索查询文本
-        :param k: 返回结果数量，默认使用配置文件中的值
-        :return: 匹配的文档列表
+        通过query搜索文档碎片，并根据main_id还原出原始文档
+        
+        参数:
+            query (str): 搜索查询文本
+            k (int): 返回的最大文档碎片数量，默认为5
+            
+        返回:
+            List[Document]: 还原后的原始文档列表
         """
         try:
-            logger.info(f"【知识库】-开始搜索文档，查询: {query}")
-            # 调用向量存储服务搜索文档
-            results = self.vector_store.search_documents(query, k)
+            logger.info(f"【知识库】-开始搜索文档，查询: {query}, 返回碎片数: {k}")
             
-            # 筛选出知识文档
-            knowledge_docs = [
-                doc for doc in results 
-                if doc.metadata.get('doc_type') == self.DOC_TYPE_KNOWLEDGE
+            # 第一遍：使用向量存储服务搜索文档碎片
+            initial_fragments = self.vector_store.search_documents(query, k=k)
+            
+            if not initial_fragments:
+                logger.info(f"【知识库】-未找到匹配的文档碎片")
+                return []
+            
+            # 提取初始碎片的main_id列表（去重）
+            main_ids = set()
+            for fragment in initial_fragments:
+                main_id = fragment.metadata.get('main_id')
+                if main_id and fragment.metadata.get('doc_type') == self.DOC_TYPE_KNOWLEDGE:
+                    main_ids.add(main_id)
+            
+            if not main_ids:
+                logger.warning(f"【知识库】-未找到有效的知识文档main_id")
+                return []
+            
+            logger.info(f"【知识库】-第一遍搜索完成，找到 {len(main_ids)} 个不同的main_id")
+            
+            # 第二遍：根据main_id获取所有相关碎片
+            all_docs = self.vector_store.get_all_documents()
+            
+            # 筛选出属于这些main_id的所有碎片
+            all_fragments = [
+                doc for doc in all_docs 
+                if doc.metadata.get('main_id') in main_ids and 
+                doc.metadata.get('doc_type') == self.DOC_TYPE_KNOWLEDGE
             ]
             
-            logger.info(f"【知识库】-搜索完成，查询: {query}，返回 {len(knowledge_docs)} 条结果")
-            return knowledge_docs
+            if not all_fragments:
+                logger.warning(f"【知识库】-未找到与main_id匹配的文档碎片")
+                return []
+            
+            logger.info(f"【知识库】-第二遍搜索完成，共找到 {len(all_fragments)} 个文档碎片")
+            
+            # 按main_id分组文档碎片
+            fragments_by_main_id = {}
+            for fragment in all_fragments:
+                main_id = fragment.metadata.get('main_id')
+                if main_id not in fragments_by_main_id:
+                    fragments_by_main_id[main_id] = []
+                fragments_by_main_id[main_id].append(fragment)
+            
+            # 对每个main_id的文档碎片进行还原
+            original_docs = []
+            for main_id, fragments in fragments_by_main_id.items():
+                # 按slice_num排序
+                fragments.sort(key=lambda x: x.metadata.get('slice_num', 0))
+                
+                # 合并文档内容
+                content = "\n\n".join([fragment.page_content for fragment in fragments])
+                
+                # 使用第一个碎片的元数据作为基础元数据
+                metadata = fragments[0].metadata.copy()
+                # 移除碎片特有的元数据
+                metadata.pop('slice_id', None)
+                metadata.pop('slice_num', None)
+                
+                # 创建原始文档对象
+                original_doc = Document(page_content=content, metadata=metadata)
+                original_docs.append(original_doc)
+            
+            logger.info(f"【知识库】-搜索完成，返回 {len(original_docs)} 个原始文档（来自 {len(all_fragments)} 个碎片）")
+            return original_docs
+            
         except Exception as e:
             logger.error(f"【知识库】-搜索文档失败: {str(e)}", exc_info=True)
             return []

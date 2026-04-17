@@ -5,6 +5,6 @@ data_path: data
 md5_hex_store: md5.txt
 allow_knowledge_file_type: ["txt", "pdf", "docx"]
 
-chunk_size: 1000
+chunk_size: 400
 chunk_overlap: 50
 separators: ["\n", "\n\n", ".", "。", "?", "？", "!", "！", " ", " "]

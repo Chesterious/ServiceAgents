@@ -234,147 +234,154 @@ elif page == "知识库管理":
     
     # 已有文档操作功能
     with tab2:
+
         # 子标题
         st.subheader("搜索文档")
-        
+
         # 搜索关键词输入
         query = st.text_input("搜索关键词（文档内容或标题）", key="search_query")
         # 返回结果数量滑块
         k = st.slider("返回结果数量", min_value=1, max_value=10, value=3)
-        
+
         # 搜索按钮
         if st.button("搜索", type="primary"):
             # 检查是否输入了搜索关键词
             if query:
                 # 记录搜索日志
                 logger.info(f"[前端]开始搜索文档，关键词: {query}")
-                
+
                 # 调用数据库服务搜索文档
                 results = st.session_state["db_service"].search_documents(query, k)
-                
-                # 检查搜索结果
-                if results:
-                    # 显示找到的文档数量
-                    st.success(f"找到 {len(results)} 条相关文档")
-                    logger.info(f"[前端]搜索完成，找到 {len(results)} 条相关文档")
-                    
-                    # 遍历搜索结果
-                    for i, doc in enumerate(results, 1):
-                        # 获取文档ID
-                        main_id = doc.metadata.get('main_id', '')
-                        # 创建列布局
-                        col1, col2, col3 = st.columns([3, 1, 1])
-                        
-                        # 第一列显示文档信息
-                        with col1:
-                            # 使用可折叠区域显示每个文档
-                            with st.expander(f"文档 {i} - {doc.metadata.get('title', '未知标题')}"):
-                                # 显示文档内容
-                                st.text_area("内容", doc.page_content, height=150, key=f"search_{i}")
-                                
-                                # 显示文档元数据
-                                if doc.metadata:
-                                    st.json(doc.metadata)
-                        
-                        # 第二列显示查看按钮
-                        with col2:
-                            if st.button("查看", key=f"view_{i}"):
-                                # 记录查看日志
-                                logger.info(f"[前端]用户请求查看文档，main_id: {main_id}")
-                                
-                                # 获取完整文档
-                                full_doc = st.session_state["db_service"].get_document_by_main_id(main_id)
-                                
-                                if full_doc:
-                                    # 显示完整文档
-                                    st.info(f"完整文档 (main_id: {main_id})")
-                                    st.text_area("完整内容", full_doc.page_content, height=300, key=f"full_{i}")
-                                    st.json(full_doc.metadata)
-                                    logger.info(f"[前端]成功获取完整文档，main_id: {main_id}")
-                                else:
-                                    st.error("获取完整文档失败")
-                                    logger.error(f"[前端]获取完整文档失败，main_id: {main_id}")
-                        
-                        # 第三列显示删除和更新按钮
-                        with col3:
-                            # 删除按钮
-                            if st.button("删除", key=f"delete_{i}"):
-                                # 记录删除日志
-                                logger.info(f"[前端]用户请求删除文档，main_id: {main_id}")
-                                
-                                # 获取所有属于该main_id的文档碎片
-                                all_docs = st.session_state["db_service"].get_all_documents()
-                                slice_ids = [d.metadata.get('slice_id') for d in all_docs if d.metadata.get('main_id') == main_id]
-                                
-                                # 删除所有碎片
-                                if slice_ids and st.session_state["db_service"].delete_documents(slice_ids):
-                                    st.success(f"文档 {main_id} 及其所有碎片已删除")
-                                    logger.info(f"[前端]成功删除文档及其碎片，main_id: {main_id}, 删除碎片数: {len(slice_ids)}")
-                                    st.rerun()
-                                else:
-                                    st.error(f"删除文档 {main_id} 失败")
-                                    logger.error(f"[前端]删除文档失败，main_id: {main_id}")
-                            
-                            # 更新按钮
-                            if st.button("更新", key=f"update_{i}"):
-                                # 记录更新日志
-                                logger.info(f"[前端]用户请求更新文档，main_id: {main_id}")
-                                
-                                # 获取完整文档
-                                full_doc = st.session_state["db_service"].get_document_by_main_id(main_id)
-                                
-                                if full_doc:
-                                    # 显示更新表单
-                                    st.info(f"更新文档 (main_id: {main_id})")
-                                    
-                                    # 编辑文档内容
-                                    updated_content = st.text_area("文档内容", full_doc.page_content, height=200, key=f"update_content_{i}")
-                                    
-                                    # 编辑元数据
-                                    with st.expander("元数据"):
-                                        updated_metadata = full_doc.metadata.copy()
-                                        updated_metadata["title"] = st.text_input("标题", updated_metadata.get("title", ""), key=f"update_title_{i}")
-                                        updated_metadata["source"] = st.text_input("来源", updated_metadata.get("source", ""), key=f"update_source_{i}")
-                                        updated_metadata["author"] = st.text_input("作者", updated_metadata.get("author", ""), key=f"update_author_{i}")
-                                        updated_metadata["category"] = st.text_input("分类", updated_metadata.get("category", ""), key=f"update_category_{i}")
-                                    
-                                    # 确认更新按钮
-                                    if st.button("确认更新", key=f"confirm_update_{i}"):
-                                        # 记录更新确认日志
-                                        logger.info(f"[前端]用户确认更新文档，main_id: {main_id}")
-                                        
-                                        # 获取所有属于该main_id的文档碎片
-                                        all_docs = st.session_state["db_service"].get_all_documents()
-                                        slice_ids = [d.metadata.get('slice_id') for d in all_docs if d.metadata.get('main_id') == main_id]
-                                        
-                                        # 先删除旧文档的所有碎片
-                                        if slice_ids and st.session_state["db_service"].delete_documents(slice_ids):
-                                            logger.info(f"[前端]已删除旧文档碎片，main_id: {main_id}, 删除碎片数: {len(slice_ids)}")
-                                            
-                                            # 添加更新后的文档
-                                            updated_doc = Document(page_content=updated_content, metadata=updated_metadata)
-                                            new_doc_ids = st.session_state["db_service"].add_documents([updated_doc])
-                                            
-                                            if new_doc_ids:
-                                                st.success(f"文档 {main_id} 更新成功")
-                                                logger.info(f"[前端]文档更新成功，main_id: {main_id}, 新生成碎片数: {len(new_doc_ids)}")
-                                                st.rerun()
-                                            else:
-                                                st.error(f"添加更新后的文档失败")
-                                                logger.error(f"[前端]添加更新后的文档失败，main_id: {main_id}")
-                                        else:
-                                            st.error(f"删除旧文档碎片失败")
-                                            logger.error(f"[前端]删除旧文档碎片失败，main_id: {main_id}")
-                                else:
-                                    st.error("获取完整文档失败")
-                                    logger.error(f"[前端]获取完整文档失败，main_id: {main_id}")
-                else:
-                    # 提示未找到相关文档
-                    st.warning("未找到相关文档")
-                    logger.info(f"[前端]搜索完成，未找到相关文档，关键词: {query}")
+
+                # 将搜索结果存储到会话状态中。因为streamlit的按钮，只要按一次，就会自动触发重运行。
+                # 这种重新运行会将临时的搜索结果清空，所有我们必须在重运行之前，将结果存放到会话状态里，
+                #   这样就可以在重运行之后，从会话状态中取出结果显示在界面上。
+                st.session_state["search_results"] = results
+
             else:
                 # 提示输入搜索关键词
                 st.warning("请输入搜索关键词")
+
+        # ==============================================
+        # 【核心】从session_state读取结果，独立于搜索按钮之外
+        # ==============================================
+        search_results = st.session_state.get("search_results", [])
+
+        # 显示搜索结果（每次重运行都渲染，不会消失）
+        if search_results:
+            st.success(f"找到 {len(search_results)} 条相关文档")
+            logger.info(f"[前端]搜索完成，找到 {len(search_results)} 条相关文档")
+
+            # 遍历搜索结果
+            for i, doc in enumerate(search_results, 1):
+                # 获取文档ID
+                main_id = doc.metadata.get('main_id', '')
+                # 创建列布局
+                col1, col2, col3 = st.columns([3, 1, 1])
+
+                logger.info(f"[前端]显示搜索结果，main_id: {main_id}")
+                # 第一列显示文档信息
+                with col1:
+                    # 使用可折叠区域显示每个文档
+                    with st.expander(f"文档 {i} - {doc.metadata.get('title', '未知标题')}"):
+                        # 显示文档内容
+                        st.text_area("内容", doc.page_content, height=150, key=f"search_{i}")
+
+                        # 显示文档元数据
+                        if doc.metadata:
+                            st.json(doc.metadata)
+
+                # 第二列显示查看按钮
+                with col2:
+                    if st.button("查看", key=f"view_{i}"):
+                        # 记录查看日志
+                        logger.info(f"[前端]用户请求查看文档，main_id: {main_id}")
+
+                        # 获取完整文档
+                        full_doc = st.session_state["db_service"].get_document_by_main_id(main_id)
+
+                        if full_doc:
+                            # 显示完整文档
+                            st.info(f"完整文档 (main_id: {main_id})")
+                            st.text_area("完整内容", full_doc.page_content, height=300, key=f"full_{i}")
+                            st.json(full_doc.metadata)
+                            logger.info(f"[前端]成功获取完整文档，main_id: {main_id}")
+                        else:
+                            st.error("获取完整文档失败")
+                            logger.error(f"[前端]获取完整文档失败，main_id: {main_id}")
+
+                # 第三列显示删除和更新按钮
+                with col3:
+                    # 删除按钮
+                    if st.button("删除", key=f"delete_{i}"):
+                        logger.info(f"[前端]用户请求删除文档，main_id: {main_id}")
+                        all_docs = st.session_state["db_service"].get_all_documents()
+                        slice_ids = [d.metadata.get('slice_id') for d in all_docs if d.metadata.get('main_id') == main_id]
+                        if slice_ids and st.session_state["db_service"].delete_documents(slice_ids):
+                            st.success(f"文档 {main_id} 及其所有碎片已删除")
+                            st.session_state["search_results"] = []
+                            time.sleep(2.5)  # 停留2.5秒再刷新，以防用户看不到删除成功的提示
+                            st.rerun()
+                        else:
+                            st.error(f"删除文档 {main_id} 失败")
+
+                    # 更新按钮（平级，不嵌套）
+                    if st.button("更新", key=f"update_{i}"):
+                        # 把编辑状态存入会话
+                        st.session_state["editing_main_id"] = main_id
+                        st.session_state["editing_index"] = i
+                        st.rerun()
+
+                # ===================== 【关键】把更新表单移到按钮外面 =====================
+                # 独立渲染，动用持久化后的编辑状态信息，不嵌套在任何按钮里
+                if "editing_main_id" in st.session_state and st.session_state["editing_main_id"] == main_id:
+                    i = st.session_state["editing_index"]
+                    full_doc = st.session_state["db_service"].get_document_by_main_id(main_id)
+                    
+                    if full_doc:
+                        st.info(f"更新文档 (main_id: {main_id})")
+                        updated_content = st.text_area("文档内容", full_doc.page_content, height=200, key=f"update_content_{i}")
+                        
+                        with st.expander("元数据"):
+                            updated_metadata = full_doc.metadata.copy()
+                            updated_metadata["title"] = st.text_input("标题", updated_metadata.get("title", ""), key=f"update_title_{i}")
+                            updated_metadata["source"] = st.text_input("来源", updated_metadata.get("source", ""), key=f"update_source_{i}")
+                            updated_metadata["author"] = st.text_input("作者", updated_metadata.get("author", ""), key=f"update_author_{i}")
+                            updated_metadata["category"] = st.text_input("分类", updated_metadata.get("category", ""), key=f"update_category_{i}")
+                        
+                        # 确认更新按钮（现在是平级，能正常触发）
+                        if st.button("确认更新", key=f"confirm_update_{i}"):
+                            logger.info(f"[前端]用户确认更新文档，main_id: {main_id}")
+                            
+                            all_docs = st.session_state["db_service"].get_all_documents()
+                            slice_ids = [d.metadata.get('slice_id') for d in all_docs if d.metadata.get('main_id') == main_id]
+                            
+                            if slice_ids and st.session_state["db_service"].delete_documents(slice_ids):
+                                logger.info(f"[前端]已删除旧文档碎片")
+                                updated_doc = Document(page_content=updated_content, metadata=updated_metadata)
+                                new_doc_ids = st.session_state["db_service"].add_documents([updated_doc])
+                                
+                                logger.info(f"[前端]已添加新文档碎片, 最好确认一下#########")
+                                if new_doc_ids:
+                                    st.success(f"文档 {main_id} 更新成功")
+                                    logger.info(f"[前端]文档 {main_id} 更新成功")
+                                    # 清空编辑状态
+                                    del st.session_state["editing_main_id"]
+                                    del st.session_state["editing_index"]
+                                    st.session_state["search_results"] = []
+                                    time.sleep(2.5)  # 停留2.5秒再刷新，以防用户看不到更新成功的提示
+                                    st.rerun()
+                                else:
+                                    st.error("添加更新后的文档失败")
+                                    logger.error(f"[前端]添加更新后的文档失败")
+                            else:
+                                st.error("删除旧文档碎片失败")
+
+        # 无结果提示（独立渲染）
+        elif "search_results" in st.session_state and not search_results:
+            st.warning("未找到相关文档")
+            logger.info(f"[前端]搜索完成，未找到相关文档，关键词: {query}")
+
 
     # 在已有文档操作功能结束后添加新的tab3内容
     with tab3:
